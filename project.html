@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <!--link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen"-->
+    <!-- link href="/static/css/bootstrap-responsive.css" rel="stylesheet" -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!--script src="/static/js/bootstrap.min.js"></script-->
+
+    <!-- leaflet -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <!-- GeoJSON data of zipcode area boundary-->
+    <script> src="/data/ZipcodeBoundaryChicago.geojson"</script>
+
+    <!--{% if g.locale != 'en' %}
+      <script src="/static/js/moment-{{ g.locale }}.min.js"></script>
+    {% endif %}
+
+    {% if title %}
+    <title>{{ title }} - Green Moon</title>
+    {% else %}
+    <title>Welcome</title>
+    {% endif %}-->
+</head>
+
+<body style="margin:0; padding:0;">
+    <div id="map" style="width: 100%; height: 350px;"></div>
+    <script type="text/javascript">
+        var map = new L.Map('map', {
+            // Some basic options to keep the map still and prevent
+            // the user from zooming and such.
+            scrollWheelZoom: false,
+            touchZoom: false,
+            doubleClickZoom: false,
+            zoomControl: false,
+            dragging: false
+        });
+
+        var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
+        var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
+        var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 18, attribution: stamenAttribution});
+
+        var center = new L.LatLng(41.8369, -87.6847);
+        map.setView(center, 9);
+
+        map.addLayer(stamenLayer);
+
+        var featureLayer = new L.GeoJSON();
+
+        var defaultStyle = {
+            color: "#2262CC",
+            weight: 2,
+            opacity: 0.6,
+            fillOpacity: 0.1,
+            fillColor: "#2262CC"
+        };
+
+        var onEachFeature = function(feature, layer) {
+
+            layer.setStyle(defaultStyle);
+        };
+
+
+        var featureLayer = L.geoJson(boundaries, {
+
+            onEachFeature: onEachFeature
+        });
+
+        map.addLayer(featureLayer);
+
+    </script>
+</body>
+
+</html>
+<!--
+<body style="margin:0; padding:0;">
+    <div id="map" style="height: 180px; position: relative;" tabindex="0">
+        <script>
+            var map = L.map('map').setView([41.8369, -87.6847], 11);
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([41.8369, -87.6847]).addTo(map)
+                .bindPopup('Landing... <br> Chicago Green Moon.')
+                .openPopup();
+        </script>
+    </div>
+</body>-->
