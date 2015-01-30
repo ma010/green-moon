@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <!--link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen"-->
+    <!-- link href="/static/css/bootstrap-responsive.css" rel="stylesheet" -->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!--script src="/static/js/bootstrap.min.js"></script-->
+
+    <!-- leaflet -->
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <!--{% if g.locale != 'en' %}
+      <script src="/static/js/moment-{{ g.locale }}.min.js"></script>
+    {% endif %}
+
+    {% if title %}
+    <title>{{ title }} - Green Moon</title>
+    {% else %}
+    <title>Welcome</title>
+    {% endif %}-->
+    </head>
+
+    <div id="map" style="height: 180px; position: relative;" tabindex="0">
+        <script>
+            var map = L.map('map').setView([41.8369, -87.6847], 11);
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([41.8369, -87.6847]).addTo(map)
+                .bindPopup('Landing... <br> Chicago Green Moon.')
+                .openPopup();
+        </script>
+    </div>
+{% endblock %}
