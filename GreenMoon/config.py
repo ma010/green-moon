@@ -2,6 +2,8 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+SECRET_KEY = 'guess'
+
 if os.environ.get('DATABASE_URL') is None:
     SQLALCHEMY_DATABASE_URI = ('postgresql://localhost' + os.path.join(basedir, 'blog.db') +
                                '?check_same_thread=False')
@@ -10,3 +12,6 @@ else:
 
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_RECORD_QUERIES = True
+
+# administrator list
+ADMINS = ['greenoony@gmail.com']

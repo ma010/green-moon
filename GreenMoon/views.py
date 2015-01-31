@@ -1,4 +1,4 @@
-from flask import render_template, url_for, request, jsonify
+from flask import render_template, url_for, request, g, jsonify
 from GreenMoon import app
 from .models import allTupleFromDB
 
@@ -7,6 +7,13 @@ from .models import allTupleFromDB
 def index():
     return render_template('index.html',
                             title='Home')
+
+# define a blog tab to show blog entries
+@app.route('/blog')
+def show_entries():
+    cur = g.db.execute('select title, text from entries order by id desc')
+    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('blog.html', entries=entries)
 
 @app.route('/about')
 def about():
