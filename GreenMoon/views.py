@@ -1,5 +1,5 @@
 from flask import render_template, url_for, request, g, jsonify
-from GreenMoon import app
+from GreenMoon import app, dbSQL
 from .models import allTupleFromDB
 
 @app.route('/')
@@ -8,16 +8,50 @@ def index():
     return render_template('index.html',
                             title='Home')
 
-# define a blog tab to show blog entries
-@app.route('/blog')
-def show_entries():
-    cur = g.db.execute('select title, text from entries order by id desc')
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html', entries=entries)
-
 @app.route('/about')
 def about():
     return 'Congrata! U have landed on the fancy moon in Chicago!'
+
+# define a blog tab to show blog entries
+@app.route('/blog')
+def show_entries():
+    cur = g.db.execute('select postTitle, postBody from User order by id desc')
+    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('blog.html', entries=entries)
+
+# define login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('show_entries'))
+    return render_template('login.html', error=error)
+
+# define logout
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('show_entries'))
+
+
+# define a page to add post after log-in
+@app.route('/add', methods=['POST'])
+def add_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    g.db.execute('insert into User (postTitle, postBody) values (?, ?)',
+                 [request.form['title'], request.form['text']])
+    g.db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_entries'))
 
 @app.route('/project1')
 def project1():

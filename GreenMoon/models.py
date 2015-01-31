@@ -5,7 +5,8 @@ class User(dbSQL.Model):
     id = dbSQL.Column(dbSQL.Integer, primary_key=True)
     nickname = dbSQL.Column(dbSQL.String(64), index=True, unique=True)
     email = dbSQL.Column(dbSQL.String(120), index=True, unique=True)
-    post = dbSQL.Column(dbSQL.String(2000), index=True, unique=True)
+    postTitle = dbSQL.Column(dbSQL.String(2000), index=True, unique=True)
+    postBody = dbSQL.Column(dbSQL.String(2000), index=True, unique=True)
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
