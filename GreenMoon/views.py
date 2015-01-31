@@ -1,4 +1,4 @@
-from flask import render_template, url_for, request, g, jsonify
+from flask import render_template, url_for, request, g, session, jsonify
 from GreenMoon import app, dbSQL
 from .models import allTupleFromDB
 
@@ -14,7 +14,7 @@ def about():
 
 # define a blog tab to show blog entries
 @app.route('/blog')
-def show_entries():
+def blog():
     cur = g.db.execute('select postTitle, postBody from User order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('blog.html', entries=entries)
@@ -31,7 +31,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_entries'))
+            return redirect(url_for('blog'))
     return render_template('login.html', error=error)
 
 # define logout
@@ -39,7 +39,7 @@ def login():
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('blog'))
 
 
 # define a page to add post after log-in
@@ -48,7 +48,7 @@ def add_entry():
     if not session.get('logged_in'):
         abort(401)
     g.db.execute('insert into User (postTitle, postBody) values (?, ?)',
-                 [request.form['title'], request.form['text']])
+                 [request.form['postTitle'], request.form['postBody']])
     g.db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
