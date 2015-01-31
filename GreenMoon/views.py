@@ -6,7 +6,7 @@ from .models import allTupleFromDB
 @app.route('/index')
 def index():
     return render_template('index.html',
-                            title='Home',)
+                            title='Home')
 
 @app.route('/about')
 def about():
