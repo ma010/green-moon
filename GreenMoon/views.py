@@ -1,4 +1,4 @@
-from flask import render_template, url_for, request, g, session, jsonify
+from flask import render_template, url_for, request, g, session, redirect, abort, flash, jsonify
 from GreenMoon import app, dbSQL
 from .models import allTupleFromDB
 
@@ -15,9 +15,9 @@ def about():
 # define a blog tab to show blog entries
 @app.route('/blog')
 def blog():
-    cur = g.db.execute('select postTitle, postBody from User order by id desc')
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html', entries=entries)
+    #cur = g.db.execute('select postTitle, postBody from User order by id desc')
+    #entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('blog.html')#, entries=entries)
 
 # define login
 @app.route('/login', methods=['GET', 'POST'])
@@ -47,11 +47,11 @@ def logout():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into User (postTitle, postBody) values (?, ?)',
+    dbSQL.execute('insert into User (postTitle, postBody) values (?, ?)',
                  [request.form['postTitle'], request.form['postBody']])
-    g.db.commit()
+    dbSQL.commit()
     flash('New entry was successfully posted')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('blog'))
 
 @app.route('/project1')
 def project1():
