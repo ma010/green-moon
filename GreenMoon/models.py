@@ -1,20 +1,31 @@
-from GreenMoon import app, db, dbSQL
+from GreenMoon import app
+from flask.ext.sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
-class User(dbSQL.Model):
-    id = dbSQL.Column(dbSQL.Integer, primary_key=True)
-    nickname = dbSQL.Column(dbSQL.String(64), index=True, unique=True)
-    email = dbSQL.Column(dbSQL.String(120), index=True, unique=True)
+db = SQLAlchemy(app)
+
+class Account(db.Model):
+    __tablename__ = 'accounts'
+    name = db.Column(db.String(12), primary_key=True, unique=True)
+    password_hash = db.Column(db.String(128))
+
+    @property
+    def password(self):
+        raise AttributeError('Password cannot be read directly!')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password, password)
 
     def __repr__(self):
-        return '<User %r>' % (self.nickname)
+        return '<Account name %r>' % self.name
 
-
-# mongdb where business license info is stored
-def allTupleFromDB():
-    output = ""
-    allLicense = db.activeLicense.find()
-    for L in allLicense:
-        output += str(L['zip']) + '++'
-        temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
-        output += temp + '++\t\n'+'++++++++\n'
-    return output
+db.drop_all()
+db.create_all()
+admin = Account(name='admin', \
+                password_hash=generate_password_hash('admin'))
+db.session.add(admin)
+db.session.commit()
