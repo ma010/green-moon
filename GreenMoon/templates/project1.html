@@ -1,34 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap -->
-    <!--link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen"-->
-    <!-- link href="/static/css/bootstrap-responsive.css" rel="stylesheet" -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <!--script src="/static/js/bootstrap.min.js"></script-->
-
-    <!-- leaflet -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-
-    <!-- GeoJSON data of zipcode area boundary-->
-    <script> src="/data/ZipcodeBoundaryChicago.geojson"</script>
-
-    <!--{% if g.locale != 'en' %}
-      <script src="/static/js/moment-{{ g.locale }}.min.js"></script>
-    {% endif %}
-
-    {% if title %}
-    <title>{{ title }} - Green Moon</title>
-    {% else %}
-    <title>Welcome</title>
-    {% endif %}-->
-</head>
 
 <body style="margin:0; padding:0;">
     <div id="map" style="width: 70%; height: 550px;"></div>
