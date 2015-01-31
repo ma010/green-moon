@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="page">
-  <div class="metanav">
-  {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">log in</a>
-  {% else %}
-    <a href="{{ url_for('logout') }}">log out</a>
-  {% endif %}
-  </div>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
+    <div class="metanav">
+    {% if not session.logged_in %}
+        <a href="{{ url_for('login') }}">log in</a>
+    {% else %}
+        <a href="{{ url_for('logout') }}">log out</a>
+    {% endif %}
+    </div>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
 </div>
 
     {% if session.logged_in %}
@@ -28,7 +29,7 @@
     {% for user in User %}
         <li><h2>{{ user.postTitle }}</h2>{{ user.postBody|safe }}
     {% else %}
-        <li><em>Unbelievable.  No entries here so far</em>
+        <li><em>Be the first to leave footprints on Green Moon</em>
     {% endfor %}
     </ul>
 
