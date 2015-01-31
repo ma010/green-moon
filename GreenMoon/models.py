@@ -16,7 +16,6 @@ class User(dbSQL.Model):
 # to store User's Post separately
 
 
-
 # mongdb where business license info is stored
 def allTupleFromDB():
     output = ""
