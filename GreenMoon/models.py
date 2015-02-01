@@ -1,12 +1,12 @@
-from GreenMoon import app, db, dbSQL
+from GreenMoon import app, db, dbMongo
 
 # define a User table to store user id, nickname, email and posts
-class User(dbSQL.Model):
-    id = dbSQL.Column(dbSQL.Integer, primary_key=True)
-    nickname = dbSQL.Column(dbSQL.String(64), index=True, unique=True)
-    email = dbSQL.Column(dbSQL.String(120), index=True, unique=True)
-    postTitle = dbSQL.Column(dbSQL.String(2000), index=True, unique=True)
-    postBody = dbSQL.Column(dbSQL.String(2000), index=True, unique=True)
+class Account(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    postTitle = db.Column(db.String(2000), index=True, unique=True)
+    postBody = db.Column(db.String(2000), index=True, unique=True)
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
@@ -19,7 +19,7 @@ class User(dbSQL.Model):
 # mongdb where business license info is stored
 def allTupleFromDB():
     output = ""
-    allLicense = db.activeLicense.find()
+    allLicense = dbMongo.activeLicense.find()
     for L in allLicense:
         output += str(L['zip']) + '++'
         temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
