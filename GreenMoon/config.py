@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
 
+# This will make adjustment of URI more flexible in the future
 if os.environ.get('DATABASE_URL') is None:
-    SQLALCHEMY_DATABASE_URI = ('postgresql://localhost' + os.path.join(basedir, 'blog.db') +
-                               '?check_same_thread=False')
+    SQLALCHEMY_DATABASE_URI = ('postgresql+psycopg2://greenmoon:greenmoon@localhost/blog.db')
 else:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
+# a repository for database migration 
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
-SQLALCHEMY_RECORD_QUERIES = True
+
+# Unknown feature; check back later
+#SQLALCHEMY_RECORD_QUERIES = True
+
+# administrator list
+

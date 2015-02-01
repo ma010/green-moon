@@ -1,17 +1,31 @@
-import os
+
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from .config import basedir
 from pymongo import Connection
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-# set up db connection with mongoDB
-con = Connection()
-db = con.businessDB
 
-# set up dbSQL connection with postgresql
+## SQL DB for core/structured storage, such as  by organizing or parsing data from MongoDB
+# Set up connection with postgresql
 app.config.from_pyfile('config.py')
 dbSQL = SQLAlchemy(app)
 
-from GreenMoon import views
+## Initialize dbSQL and and admin
+dbSQL.drop_all()
+dbSQL.create_all()
+admin = Account(name='admin', \
+                password_hash=generate_password_hash('admin'))
+dbSQL.session.add(admin)
+dbSQL.session.commit()
+
+
+## MongoDB for fast unstructured data storage, such as info crawled from webpages, twitter, etc.
+# Set up mongoDB engine
+con = Connection()
+# Get database record - businessDB which contains business lincense info
+dbMongo = con.businessDB
+
+
+from GreenMoon import models, views
