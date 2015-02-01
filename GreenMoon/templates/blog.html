@@ -25,6 +25,7 @@
             </dl>
         </form>
     {% endif %}
+
     <ul class=entries>
     {% for user in User %}
         <li><h2>{{ user.postTitle }}</h2>{{ user.postBody|safe }}
