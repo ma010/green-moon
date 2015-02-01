@@ -12,8 +12,6 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 
-
-
 ## MongoDB for fast unstructured data storage, such as info crawled from webpages, twitter, etc.
 # Set up mongoDB engine
 con = Connection()
@@ -21,7 +19,7 @@ con = Connection()
 dbMongo = con.businessDB
 
 
-from GreenMoon import models, views
+from GreenMoon import views
 
 #
 # admin = Account(name='admin', \

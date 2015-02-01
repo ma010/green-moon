@@ -1,12 +1,13 @@
 from GreenMoon import app, dbMongo
+from GreenMoon.db_init import dbSQL
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
 app.secret_key = 'why would I tell you my secret key?'
 
-## Initialize dbSQL and and admin
-dbSQL = SQLAlchemy(app)
+# ## Initialize dbSQL and and admin
+# dbSQL = SQLAlchemy(app)
 
 class Account(dbSQL.Model):
     __tablename__ = 'accounts'
@@ -62,6 +63,7 @@ class Account(dbSQL.Model):
 class Post(dbSQL.Model):
     __tablename__ = 'posts'
     id = dbSQL.Column(dbSQL.Integer, primary_key = True)
+    title = dbSQL.Column(dbSQL.String(120), index=True)
     body = dbSQL.Column(dbSQL.String(200))
     timestamp = dbSQL.Column(dbSQL.DateTime)
     user_id = dbSQL.Column(dbSQL.Integer, dbSQL.ForeignKey('accounts.id'))
@@ -80,14 +82,14 @@ class Verification():
         posts = Post.query.filter_by(user_id=user.id).all()
         return posts
 
-
-dbSQL.drop_all()
-dbSQL.create_all()
-admin = Account(nickname='admin',
-                 password_hash=generate_password_hash('admin'))
-
-dbSQL.session.add(admin)
-dbSQL.session.commit()
+#
+# dbSQL.drop_all()
+# dbSQL.create_all()
+# admin = Account(nickname='admin',
+#                  password_hash=generate_password_hash('admin'))
+#
+# dbSQL.session.add(admin)
+# dbSQL.session.commit()
 
 
 
