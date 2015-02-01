@@ -13,6 +13,7 @@ app.config.from_pyfile('config.py')
 
 # Load module view to render pages
 from GreenMoon import views
+# Load module models for database
 from GreenMoon import models
 
 # run a flask server if this file is executed directly
