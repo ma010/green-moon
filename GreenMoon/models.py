@@ -2,12 +2,12 @@ from GreenMoon import app
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
-db = SQLAlchemy(app)
+dbSQL = SQLAlchemy(app)
 
-class Account(db.Model):
+class Account(dbSQL.Model):
     __tablename__ = 'accounts'
-    name = db.Column(db.String(12), primary_key=True, unique=True)
-    password_hash = db.Column(db.String(128))
+    name = dbSQL.Column(dbSQL.String(12), primary_key=True, unique=True)
+    password_hash = dbSQL.Column(dbSQL.String(128))
 
     @property
     def password(self):
@@ -23,9 +23,9 @@ class Account(db.Model):
     def __repr__(self):
         return '<Account name %r>' % self.name
 
-db.drop_all()
-db.create_all()
+dbSQL.drop_all()
+dbSQL.create_all()
 admin = Account(name='admin', \
                 password_hash=generate_password_hash('admin'))
-db.session.add(admin)
-db.session.commit()
+dbSQL.session.add(admin)
+dbSQL.session.commit()
