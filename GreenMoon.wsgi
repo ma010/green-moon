@@ -3,4 +3,4 @@
 # If the application is not on the python load path, add it to system path first like this:
 #   import sys
 #   sys.path.insert(0, '/path/to/the/application')
-from daisygarden import app as application
+from GreenMoon import app as application
