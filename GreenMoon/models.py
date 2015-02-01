@@ -72,11 +72,11 @@ class Verification():
         return Account.query.filter_by(nickname=self).first()
 
     def find_user_pwd(self):
-        user = find_existing_user(self)
+        user = Verification.find_existing_user(self)
         return user.password_hash
 
     def find_user_post(self):
-        user = find_existing_user(self)
+        user = Verification.find_existing_user(self)
         posts = Post.query.filter_by(user_id=user.id).all()
         return posts
 
