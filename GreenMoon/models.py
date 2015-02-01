@@ -1,4 +1,5 @@
-from GreenMoon import app, dbSQL, dbMongo
+from GreenMoon import app
+from GreenMoon.db_init import dbSQL#, dbMongo
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -33,7 +34,6 @@ class Account(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
-'''
 
 
 # define a class Post -- a second table in the database
@@ -50,3 +50,4 @@ def allTupleFromDB():
         temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
         output += temp + '++\t\n'+'++++++++\n'
     return output
+'''
