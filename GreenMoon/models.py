@@ -3,6 +3,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
+app.secret_key = 'why would I tell you my secret key?'
+
 ## Initialize dbSQL and and admin
 dbSQL = SQLAlchemy(app)
 
@@ -63,6 +65,20 @@ class Post(dbSQL.Model):
     body = dbSQL.Column(dbSQL.String(200))
     timestamp = dbSQL.Column(dbSQL.DateTime)
     user_id = dbSQL.Column(dbSQL.Integer, dbSQL.ForeignKey('accounts.id'))
+
+class Verification():
+
+    def find_existing_user(self):
+        return Account.query.filter_by(nickname=self).first()
+
+    def find_user_pwd(self):
+        user = find_existing_user(self)
+        return user.password_hash
+
+    def find_user_post(self):
+        user = find_existing_user(self)
+        posts = Post.query.filter_by(user_id=user.id).all()
+        return posts
 
 
 dbSQL.drop_all()

@@ -28,11 +28,11 @@ def login():
 
     if request.method == 'POST':
         nickname = request.form['nickname']
-        password = generate_password_hash(request.form['password'])
+        pwd = request.form['password']
         user = Account.query.filter_by(nickname=nickname).first()
         if user is None:
             error = 'Invalid nickname'
-        elif password != user.password_hash:
+        elif check_password_hash(user.password_hash, pwd)==False:
             error = 'Invalid password'
         else:
             session['logged_in'] = True
