@@ -27,8 +27,9 @@
     {% endif %}
 
     <ul class=entries>
-    {% for user in User %}
-        <li><h2>{{ user.postTitle }}</h2>{{ user.postBody|safe }}
+    {% for post in Post %}
+        <li><h2>{{ post.id }}</h2>{{ post.body|safe }}
+            <li><h3>{{ post.user_id }}</h3>
     {% else %}
         <li><em>Be the first to leave footprints on Green Moon</em>
     {% endfor %}

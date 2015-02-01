@@ -1,5 +1,7 @@
 from flask import render_template, url_for, request, g, session, redirect, abort, flash, jsonify
-from GreenMoon import app, dbSQL
+from GreenMoon import app
+from .models import dbSQL, Account, Post
+from werkzeug.security import generate_password_hash, check_password_hash
 from .models import allTupleFromDB
 
 @app.route('/')
@@ -23,10 +25,14 @@ def blog():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
+        nickname = request.form['nickname']
+        password = generate_password_hash(request.form['password'])
+        user = Account.query.filter_by(nickname=nickname).first()
+        if user is None:
+            error = 'Invalid nickname'
+        elif password != user.password_hash:
             error = 'Invalid password'
         else:
             session['logged_in'] = True

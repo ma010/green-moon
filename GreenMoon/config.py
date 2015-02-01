@@ -3,7 +3,7 @@ import os
 
 # This will make adjustment of URI more flexible in the future
 if os.environ.get('DATABASE_URL') is None:
-    SQLALCHEMY_DATABASE_URI = ('postgresql+psycopg2://greenmoon:greenmoon@localhost/blog.db')
+    SQLALCHEMY_DATABASE_URI = ('postgresql+psycopg2://greenmoon:greenmoon@localhost/blogdb')
 else:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
