@@ -1,5 +1,9 @@
 from flask import render_template, url_for, request, g, session, redirect, abort, flash, jsonify
-from GreenMoon import app, dbSQL
+from GreenMoon import app
+from GreenMoon.db_init import dbSQL
+from GreenMoon.models import Account, Post
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask.ext.sqlalchemy import SQLAlchemy
 from .models import allTupleFromDB
 
 @app.route('/')
@@ -10,7 +14,7 @@ def index():
 
 @app.route('/about')
 def about():
-    return 'Congrata! U have landed on the fancy moon in Chicago!'
+    return render_template('about.html')
 
 # define a blog tab to show blog entries
 @app.route('/blog')
@@ -23,10 +27,14 @@ def blog():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
+        nickname = request.form['nickname']
+        pwd = request.form['password']
+        user = Account.query.filter_by(nickname=nickname).first()
+        if user is None:
+            error = 'Invalid nickname'
+        elif check_password_hash(user.password_hash, pwd)==False:
             error = 'Invalid password'
         else:
             session['logged_in'] = True
@@ -47,9 +55,14 @@ def logout():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    dbSQL.execute('insert into User (postTitle, postBody) values (?, ?)',
-                 [request.form['postTitle'], request.form['postBody']])
-    dbSQL.commit()
+    title = request.form['title']
+    body = request.form['text']
+    post = Post(title=title, body=body)
+    #
+    # dbSQL.execute('insert into posts (id=title, body=text) values (?, ?)',
+    #              [request.form['title'], request.form['text']])
+    dbSQL.session.add(post)
+    dbSQL.session.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
