@@ -122,3 +122,12 @@ def allTupleFromDB():
         temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
         output += temp + '++\t\n'+'++++++++\n'
     return output
+
+
+def licenseFromZip(zipPick):
+    output = ""
+    licenseFoundAtZip = dbMongo.activeLicense.find({'zip' : str(zipPick)})
+    for L in licenseFoundAtZip:
+        temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
+        output += temp + '++\t\n'
+    return output
