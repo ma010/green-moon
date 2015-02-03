@@ -66,10 +66,10 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
-@app.route('/project1')
-def project1():
-    return render_template('project1.html',
-                           title='Project')
+@app.route('/dataprojects')
+def dataprojects():
+    return render_template('dataprojects.html',
+                           title='Data Projects')
 
 @app.route('/project2')
 def project2():
