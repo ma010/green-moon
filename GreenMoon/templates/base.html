@@ -3,15 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jQuery -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+
     <!-- leaflet -->
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
     {% if title %}
     <title>{{ title }} - Green Moon Chicago</title>
     {% else %}
     <title>Welcome</title>
     {% endif %}
+
 </head>
 
 <body>
@@ -20,7 +25,8 @@
             <ul>
                 <!--<li><a href="" class="current">Home</a></li>-->
                 <li><a href="/about">about</a></li>
-		<li><a href="/research">research</a></li>
+                <li><a href="/blog">blog</a></li>
+		        <li><a href="/research">research</a></li>
                 <li><a href="/project1">project1</a></li>
                 <li><a href="/project2">project2</a></li>
             </ul>
