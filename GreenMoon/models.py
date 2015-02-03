@@ -1,4 +1,4 @@
-from GreenMoon import app, dbMongo
+from GreenMoon import app, dbMongo, dbMongo
 from GreenMoon.db_init import dbSQL
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -121,4 +121,13 @@ def allTupleFromDB():
         output += str(L['zip']) + '++'
         temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
         output += temp + '++\t\n'+'++++++++\n'
+    return output
+
+
+def licenseFromZip(zipPick):
+    output = ""
+    licenseFoundAtZip = dbMongo.activeLicense.find({'zip' : str(zipPick)})
+    for L in licenseFoundAtZip:
+        temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
+        output += temp + '++\t\n'
     return output
