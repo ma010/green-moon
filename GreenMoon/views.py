@@ -4,7 +4,8 @@ from GreenMoon.db_init import dbSQL
 from GreenMoon.models import Account, Post
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.sqlalchemy import SQLAlchemy
-from .models import allTupleFromDB
+from .models import allTupleFromDB, licenseFromZip
+from .forms import inputZipForm
 
 @app.route('/')
 @app.route('/index')
@@ -71,7 +72,12 @@ def dataprojects():
     return render_template('dataprojects.html',
                            title='Data Projects')
 
-@app.route('/project2')
+@app.route('/map1')
+def map1():
+    return render_template('leafletMap.html',
+                           title='Data Map')
+
+@app.route('/map')
 def project2():
     return allTupleFromDB()
 
@@ -80,8 +86,26 @@ def research():
     return render_template('research.html',
                            title='Research')
 
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
+@app.route('/searchZip', methods=['GET', 'POST'])
+def searchZip():
+    form = inputZipForm()
+    if form.validate_on_submit():
+        #flash('Login requested for OpenID="%s" ' % (form.openid.data))
+        session['selectedZip'] = form.inputZip.data
+        return redirect('/licenseSearchResult')
+    return render_template('searchZip.html', form=form)
+
+@app.route('/licenseSearchResult')
+def licenseSearchResult():
+    selectedZip = session['selectedZip']
+    if( selectedZip is None):
+        return redirect('/licenseAnalysis.html') 
+    else:
+        output = licenseFromZip(selectedZip)
+        if (output == ""):
+            searchResult = "Search result is null."
+        else:
+            searchResult = output
+
+        return render_template('licenseSearchResult.html', title='Result', 
+          selectedZip = selectedZip, searchResult = searchResult)
