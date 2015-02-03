@@ -24,6 +24,11 @@ def blog():
     #entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('blog.html')#, entries=entries)
 
+# define sign up page
+@app.route('/sign')
+def sign():
+    return render_template('sign.html')
+
 # define login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
