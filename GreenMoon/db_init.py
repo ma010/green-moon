@@ -7,13 +7,13 @@ dbSQL = SQLAlchemy(app)
 
 from GreenMoon.models import Account
 
-## Initialize dbSQL and and admin
-dbSQL.drop_all()
+## Initialize dbSQL and add "admin:admin" as a user
+## NOTE: ONLY RUN THIS ON THE FIRST GO, DELETE LINES 12-16 AFTERWARDS.
+'''dbSQL.drop_all()
 dbSQL.create_all()
-admin = Account(nickname='admin', \
-                password_hash=generate_password_hash('admin'))
+admin = Account(nickname='admin', password_hash=generate_password_hash('admin'))
 dbSQL.session.add(admin)
-dbSQL.session.commit()
+dbSQL.session.commit()'''
 
 
 ## MongoDB for fast unstructured data storage, such as info crawled from webpages, twitter, etc.

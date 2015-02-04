@@ -17,6 +17,7 @@
     {% if session.logged_in %}
         <form action="{{ url_for('add_entry') }}" method="post" class=add-entry>
             <dl>
+                <br>
                 <dt>Title:
                 <dd><input type=text size=30 name=title>
                 <dt>Text:
@@ -26,11 +27,14 @@
         </form>
     {% endif %}
 
-    <ul class=entries>
-    {% for post in Post %}
-        <li><h2>{{ post.id }}</h2>{{ post.body|safe }}
-            <li><h3>{{ post.user_id }}</h3>
+    <ul class=posts>
+
+    {% for p in posts %}
+        <li><h3>Posted by: {{ p.nickname }}</h3> <h4>Title: {{ p.title }}</h4>
+        <h5>{{ p.body|safe }}</h5>
+        <br>
     {% else %}
+        <br>
         <li><em>Be the first to leave footprints on Green Moon</em>
     {% endfor %}
     </ul>
