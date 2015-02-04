@@ -1,11 +1,11 @@
 from flask import render_template, url_for, request, g, session, redirect, abort, flash, jsonify
 from GreenMoon import app
 from GreenMoon.db_init import dbSQL
-from GreenMoon.models import Account, Post
+from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.sqlalchemy import SQLAlchemy
-from .models import allTupleFromDB, licenseFromZip
 from .forms import inputZipForm
+from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
@@ -20,9 +20,8 @@ def about():
 # define a blog tab to show blog entries
 @app.route('/blog')
 def blog():
-    #cur = g.db.execute('select postTitle, postBody from User order by id desc')
-    #entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html')#, entries=entries)
+    posts = dbSQL.session.query(Post).all()
+    return render_template('blog.html', posts = posts)
 
 # define sign up page
 @app.route('/sign')
@@ -44,6 +43,7 @@ def login():
             error = 'Invalid password'
         else:
             session['logged_in'] = True
+            session['nickname'] = nickname
             flash('You were logged in')
             return redirect(url_for('blog'))
     return render_template('login.html', error=error)
@@ -52,6 +52,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    session.pop('nickname', None)
     flash('You were logged out')
     return redirect(url_for('blog'))
 
@@ -63,7 +64,9 @@ def add_entry():
         abort(401)
     title = request.form['title']
     body = request.form['text']
-    post = Post(title=title, body=body)
+    timestamp = datetime.now()
+    nickname = session['nickname']
+    post = Post(title=title, body=body, timestamp = timestamp, nickname = nickname)
     #
     # dbSQL.execute('insert into posts (id=title, body=text) values (?, ?)',
     #              [request.form['title'], request.form['text']])
