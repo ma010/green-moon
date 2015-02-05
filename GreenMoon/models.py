@@ -63,10 +63,21 @@ class Account(dbSQL.Model):
 class Post(dbSQL.Model):
     __tablename__ = 'posts'
     id = dbSQL.Column(dbSQL.Integer, primary_key = True)
+
     title = dbSQL.Column(dbSQL.String(120), index=True)
     body = dbSQL.Column(dbSQL.String(200))
     timestamp = dbSQL.Column(dbSQL.DateTime)
     user_id = dbSQL.Column(dbSQL.Integer, dbSQL.ForeignKey('accounts.id'))
+    nickname = dbSQL.Column(dbSQL.String(50))
+
+    def __init__(self, title, body, timestamp, nickname):
+        self.title = title
+        self.body = body
+        self.timestamp = timestamp
+        self.nickname = nickname
+
+    def __repr__(self):
+        return '<title {}'.format(self.title)
 
 class Verification():
 
@@ -121,4 +132,13 @@ def allTupleFromDB():
         output += str(L['zip']) + '++'
         temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
         output += temp + '++\t\n'+'++++++++\n'
+    return output
+
+
+def licenseFromZip(zipPick):
+    output = ""
+    licenseFoundAtZip = dbMongo.activeLicense.find({'zip' : str(zipPick)})
+    for L in licenseFoundAtZip:
+        temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
+        output += temp + '++\t\n'
     return output
