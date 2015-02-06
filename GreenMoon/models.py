@@ -1,5 +1,5 @@
 from GreenMoon import app, dbMongo
-from GreenMoon.db_init import dbSQL
+from GreenMoon import dbSQL
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
