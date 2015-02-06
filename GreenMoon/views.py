@@ -1,6 +1,6 @@
 from flask import render_template, url_for, request, g, session, redirect, abort, flash, jsonify
 from GreenMoon import app
-from GreenMoon.db_init import dbSQL
+from GreenMoon import dbSQL
 from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.sqlalchemy import SQLAlchemy
