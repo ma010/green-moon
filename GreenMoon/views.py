@@ -89,6 +89,10 @@ def map1():
 def project2():
     return allTupleFromDB()
 
+@app.route('/divvyBikeProject')
+def divvyBikeProject():
+    return render_template('divvyBikeProject.html')
+
 @app.route('/research')
 def research():
     return render_template('research.html',
