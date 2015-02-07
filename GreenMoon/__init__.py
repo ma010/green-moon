@@ -1,11 +1,11 @@
 
 from flask import Flask
-#from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 from pymongo import Connection
 #from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-
+dbSQL = SQLAlchemy(app)
 
 ## SQL DB for core/structured storage, such as  by organizing or parsing data from MongoDB
 # Set up connection with postgresql
