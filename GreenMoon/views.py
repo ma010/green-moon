@@ -123,3 +123,10 @@ def licenseSearchResult():
 
         return render_template('licenseSearchResult.html', title='Result',
           selectedZip = selectedZip, searchResult = searchResult)
+
+
+# add a route to make zipcodeBoundaryChicago.geojson available
+@app.route('/zipcodeBoundaryChicago.geojson')
+def zipBoundary():
+    return render_template('zipcodeBoundaryChicago.geojson',
+                           title='Zip Boundary')
