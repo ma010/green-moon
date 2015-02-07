@@ -14,37 +14,13 @@
             dragging: true
         });
 
-        var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
-        var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
-        var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 18, attribution: stamenAttribution});
-
         var center = new L.LatLng(41.8369, -87.6847);
         map.setView(center, 9);
 
-        map.addLayer(stamenLayer);
-
-        var featureLayer = new L.GeoJSON();
-
-        var defaultStyle = {
-            color: "#2262CC",
-            weight: 2,
-            opacity: 0.6,
-            fillOpacity: 0.1,
-            fillColor: "#2262CC"
-        };
-
-        var onEachFeature = function(feature, layer) {
-
-            layer.setStyle(defaultStyle);
-        };
-
-
-        var featureLayer = L.geoJson(boundaries, {
-
-            onEachFeature: onEachFeature
-        });
-
-        map.addLayer(featureLayer);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
 
     </script>
 </body>
