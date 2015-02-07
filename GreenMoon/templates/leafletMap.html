@@ -4,9 +4,9 @@
 <body style="margin:0; padding:0;">
     <div id="map" style="width: 70%; height: 550px; margin:0 auto;"></div>
     <script type="text/javascript">
+
+        // define a map with options
         var map = new L.Map('map', {
-            // Some basic options to keep the map still and prevent
-            // the user from zooming and such.
             scrollWheelZoom: true,
             touchZoom: true,
             doubleClickZoom: true,
@@ -14,13 +14,39 @@
             dragging: true
         });
 
-        var center = new L.LatLng(41.8369, -87.6847);
-        map.setView(center, 9);
-
+        // add base map tile with citation
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        // set view center to be the center of Chicago
+        var center = new L.LatLng(41.8369, -87.6847);
+        map.setView(center, 10);
+
+        // create an empty featureLayer that will be loaded with geojson data
+        var featureLayer = new L.GeoJSON();
+
+        // set the style of featureLayer
+        var defaultStyle = {
+            color: "#2262CC",
+            weight: 2,
+            opacity: 0.6,
+            fillOpacity: 0.1,
+            fillColor: "#2262CC"
+        };
+
+        // define a function to add style to featureLayer
+        var onEachFeature = function(feature, layer) {
+            layer.setStyle(defaultStyle);
+        };
+
+        // add geojson data and style to featureLayer
+        var featureLayer = L.geoJson(boundaries, {
+            onEachFeature: onEachFeature
+        });
+
+        // add the featureLayer to map (on top of base map tile)
+        map.addLayer(featureLayer);
 
     </script>
 </body>
