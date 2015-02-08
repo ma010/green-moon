@@ -3,8 +3,7 @@ from datetime import datetime
 from flask import render_template, url_for, request, session, redirect, abort, flash
 from werkzeug.security import check_password_hash
 
-from GreenMoon import app
-from db_init import dbSQL
+from GreenMoon import app, dbSQL
 from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip
 from .forms import inputZipForm
 
