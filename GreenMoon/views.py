@@ -20,10 +20,38 @@ def about():
     return render_template('about.html')
 
 # define a blog tab to show blog entries
-@app.route('/blog')
+@app.route('/projects/blog')
 def blog():
     posts = dbSQL.session.query(Post).all()
     return render_template('blog.html', posts = posts)
+
+@app.route('/projects/license', methods=['GET', 'POST'])
+def license():
+    form = inputZipForm()
+    if form.validate_on_submit():
+        #flash('Login requested for OpenID="%s" ' % (form.openid.data))
+        session['selectedZip'] = form.inputZip.data
+        return redirect('/projects/license/licenseSearchResult')
+    return render_template('license.html', title='Data Map', form=form)
+
+@app.route('/projects/license/licenseSearchResult')
+def licenseSearchResult():
+    selectedZip = session['selectedZip']
+    if( selectedZip is None):
+        return redirect('/licenseAnalysis.html')
+    else:
+        output = licenseFromZip(selectedZip)
+        if (output == ""):
+            searchResult = "Search result is null."
+        else:
+            searchResult = output
+
+        return render_template('licenseSearchResult.html', title='Result',
+          selectedZip = selectedZip, searchResult = searchResult)
+
+@app.route('/projects/twitter')
+def twitter():
+    return render_template('twitter.html')
 
 # define sign up page
 @app.route('/sign')
@@ -76,16 +104,6 @@ def add_entry():
     dbSQL.session.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
-
-@app.route('/dataprojects')
-def dataprojects():
-    return render_template('dataprojects.html',
-                           title='Data Projects')
-
-@app.route('/map1')
-def map1():
-    return render_template('leafletMap.html',
-                           title='Data Map')
 
 @app.route('/map')
 def project2():
