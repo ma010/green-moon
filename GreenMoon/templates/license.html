@@ -3,22 +3,6 @@
 
 <body style="margin:0; padding:0;">
     <a href="/">Home</a><hr>
-    <div id="map" style="width: 70%; height: 550px;"></div>
-    <hr>
-    <h3>Search business license data by zip code.</h3>
-    <form action="" method="post" name="login">
-        {{ form.hidden_tag() }}
-        <p>
-            Type in a zip code below:<br><br>
-            {{ form.inputZip(size=20) }}
-            {% for error in form.inputZip.errors %}
-            <span style="color: purple;">[{{ error }}]</span>
-            {% endfor %}<br>
-        </p>
-        <br>
-        <p><input type="submit" value="lets go"></p>
-    </form>
-
     <div id="map" style="width: 70%; height: 550px; margin:0 auto;"></div>
     <script type="text/javascript">
 
@@ -64,11 +48,22 @@
 
         // add the featureLayer to map (on top of base map tile)
         map.addLayer(featureLayer);
-
     </script>
-
+    <hr>
+    <h3>Search business license data by zip code.</h3>
+    <form action="" method="post" name="login">
+        {{ form.hidden_tag() }}
+        <p>
+            Type in a zip code below:<br><br>
+            {{ form.inputZip(size=20) }}
+            {% for error in form.inputZip.errors %}
+            <span style="color: purple;">[{{ error }}]</span>
+            {% endfor %}<br>
+        </p>
+        <br>
+        <p><input type="submit" value="lets go"></p>
+    </form>
     <hr>
     <iframe width="840" height="630" src="https://www.youtube.com/embed/1n2JvXtxGbc"></iframe>
-
 </body>
 {% endblock %}
