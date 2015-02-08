@@ -1,43 +1,85 @@
 {% extends "base.html" %}
-{% block mybody %}
-<body>
-    <a href="/">Home</a><hr>
-    <div class="page">
-        <div class="metanav">
-            {% if not session.logged_in %}
-            <a href="{{ url_for('login') }}">log in</a>
-            {% else %}
-            <a href="{{ url_for('logout') }}">log out</a>
-            {% endif %}
+{% block head %}
+    {{ super() }}
+    <link href="/static/css/projects.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="/" target="_self">Green Moon</a>
         </div>
-        {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-        {% endfor %}
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <a id="nav1" class="page-scroll" href="#page-top">Sign up</a>
+                </li>
+                <li>
+                    <a id="nav2" class="page-scroll" href="/projects/blog/login">Login in</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    
-    {% if session.logged_in %}
-    <form action="{{ url_for('add_entry') }}" method="post" class=add-entry>
-        <dl>
-            <dt>Title:
-            <dd><input type=text size=30 name=title>
-            <dt>Text:
-            <dd><textarea name=text rows=5 cols=40></textarea>
-            <dd><input type=submit value=Share>
-        </dl>
-    </form>
-    {% endif %}
-    
-    <ul class=posts>
-        {% for p in posts %}
-        <li><h3>Posted by: {{ p.nickname }}</h3> <h4>Title: {{ p.title }}</h4>
-            <h5>{{ p.body|safe }}</h5>
-            <br>
-            {% else %}
-            <br>
-        <li><em>Be the first to leave footprints on Green Moon</em>
-            {% endfor %}
-    </ul>
-    
-    {% block body %}{% endblock %}
-</body>
+    <!-- /.container-fluid -->
+</nav>
+{% endblock %}
+
+{% block content %}
+    <section id="blog">
+        <div class="container">
+            <div class="row">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+
+                {% if not session.logged_in %}
+                    <h1>Please login in to post!</h1>
+                {% else %}
+                    <script>
+                        $("#nav1").text("Hello, {{ session['nickname'] }} !");
+                        $("#nav2").text("Login out");
+                        $("#nav2").attr("href","/projects/blog/logout");
+                    </script>
+
+                    <form action="{{ url_for('add_entry') }}" method="post" class=add-entry>
+                        <dl>
+                            <dt>Title:
+                            <dd><input type=text size=30 name=title>
+                            <dt>Text:
+                            <dd><textarea name=text rows=5 cols=40></textarea>
+                            <dd><input type=submit value=Share>
+                        </dl>
+                    </form>
+                {% endif %}
+                <ul>
+                    {% for p in posts %}
+                        <li><h3>Posted by: {{ p.nickname }}</h3> <h4>Title: {{ p.title }}</h4>
+                            <h5>{{ p.body|safe }}</h5>
+                            <br>
+                            {% else %}
+                            <br>
+                        <li><em>Be the first to leave footprints on Green Moon</em>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

@@ -18,11 +18,47 @@ def index():
 def about():
     return render_template('about.html')
 
-# define a blog tab to show blog entries
+@app.route('/projects')
+def projects():
+    id = 'page-top'
+    return render_template('index.html',id='portfolio')
+
 @app.route('/projects/blog')
 def blog():
     posts = dbSQL.session.query(Post).all()
     return render_template('blog.html', posts = posts)
+
+# define login
+@app.route('/projects/blog/login', methods=['GET', 'POST'])
+def login():
+    error = None
+
+    if request.method == 'POST':
+        nickname = request.form['nickname']
+        pwd = request.form['password']
+        user = Account.query.filter_by(nickname=nickname).first()
+        print(nickname)
+        if user is None:
+            error = 'Invalid nickname'
+        elif check_password_hash(user.password_hash, pwd)==False:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            session['nickname'] = nickname
+            flash('You were logged in')
+            return redirect('/projects/blog')
+    if error:
+        flash(error)
+
+    return render_template('login.html', error=error)
+
+# define logout
+@app.route('/projects/blog/logout')
+def logout():
+    session.pop('logged_in', None)
+    session.pop('nickname', None)
+    flash('You were logged out')
+    return redirect(url_for('blog'))
 
 @app.route('/projects/license', methods=['GET', 'POST'])
 def license():
@@ -48,43 +84,10 @@ def licenseSearchResult():
         return render_template('licenseSearchResult.html', title='Result',
           selectedZip = selectedZip, searchResult = searchResult)
 
-@app.route('/projects/twitter')
-def twitter():
-    return render_template('twitter.html')
-
 # define sign up page
 @app.route('/sign')
 def sign():
     return render_template('sign.html')
-
-# define login
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-
-    if request.method == 'POST':
-        nickname = request.form['nickname']
-        pwd = request.form['password']
-        user = Account.query.filter_by(nickname=nickname).first()
-        if user is None:
-            error = 'Invalid nickname'
-        elif check_password_hash(user.password_hash, pwd)==False:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            session['nickname'] = nickname
-            flash('You were logged in')
-            return redirect(url_for('blog'))
-    return render_template('login.html', error=error)
-
-# define logout
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    session.pop('nickname', None)
-    flash('You were logged out')
-    return redirect(url_for('blog'))
-
 
 # define a page to add post after log-in
 @app.route('/add', methods=['POST'])
@@ -104,13 +107,18 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
+
+@app.route('/projects/bikes')
+def bikes():
+    return render_template('bikes.html')
+
+@app.route('/projects/twitter')
+def twitter():
+    return render_template('twitter.html')
+
 @app.route('/map')
 def project2():
     return allTupleFromDB()
-
-@app.route('/divvyBikeProject')
-def divvyBikeProject():
-    return render_template('divvyBikeProject.html')
 
 @app.route('/research')
 def research():

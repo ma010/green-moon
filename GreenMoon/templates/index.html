@@ -1,50 +1,7 @@
 {% extends "base.html" %}
-{% block mybody %}
-<body id="page-top" class="index">
 
-<!-- Navigation -->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand page-scroll" href="/" target="_self">Green Moon</a>
-        </div>
+{% block content %}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#services">Features</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#portfolio">Projects</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#team">Team</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#about">About</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-
-<!-- header -->
 <header>
     <div class="container">
         <div class="intro-text">
@@ -132,6 +89,23 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-6 portfolio-item">
+                <a href="/projects/bikes" class="portfolio-link" data-toggle="modal">
+                    <div class="portfolio-hover">
+                        <div class="portfolio-hover-content">
+                            <i class="fa fa-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="/static/img/portfolio/bike.png" class="img-responsive" alt="">
+                </a>
+                <div class="portfolio-caption">
+                    <h4>Divvy Bikes</h4>
+                    <p class="text-muted">Data Analysis</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 col-sm-6 portfolio-item">
                 <a href="/projects/twitter" class="portfolio-link" data-toggle="modal">
                     <div class="portfolio-hover">
                         <div class="portfolio-hover-content">
@@ -143,6 +117,34 @@
                 <div class="portfolio-caption">
                     <h4>Twitter Networking</h4>
                     <p class="text-muted">Coming soon</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 portfolio-item">
+                <a href="#" class="portfolio-link" data-toggle="modal">
+                    <div class="portfolio-hover">
+                        <div class="portfolio-hover-content">
+                            <i class="fa fa-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="/static/img/portfolio/coming_soon.png" class="img-responsive" alt="">
+                </a>
+                <div class="portfolio-caption">
+                    <h4>Coming soon ...</h4>
+                    <p class="text-muted">Coming soon ...</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 portfolio-item">
+                <a href="#" class="portfolio-link" data-toggle="modal">
+                    <div class="portfolio-hover">
+                        <div class="portfolio-hover-content">
+                            <i class="fa fa-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="/static/img/portfolio/coming_soon.png" class="img-responsive" alt="">
+                </a>
+                <div class="portfolio-caption">
+                    <h4>Coming soon ...</h4>
+                    <p class="text-muted">Coming soon ...</p>
                 </div>
             </div>
         </div>
@@ -269,7 +271,7 @@
             </div>
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <a href="#" class="btn btn-lg btn-outline">
-                    <i class="fa fa-download"></i> Welcome 
+                    <i class="fa fa-download"></i> Welcome
                 </a>
             </div>
         </div>
@@ -298,45 +300,5 @@
         </div>
     </div>
 </section>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <span class="copyright">Copyright &copy; Green Moon Team 2015</span>
-            </div>
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-                <ul class="list-inline quicklinks">
-                    <li><a href="#">Privacy Policy</a>
-                    </li>
-                    <li><a href="#">Terms of Use</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="/static/js/jquery.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/static/js/bootstrap.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-<script src="/static/js/classie.js"></script>
-<script src="/static/js/cbpAnimatedHeader.js"></script>
-
-<!-- Contact Form JavaScript -->
-<script src="/static/js/jqBootstrapValidation.js"></script>
-<script src="/static/js/contact_me.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/static/js/agency.js"></script>
-
-</body>
 
 {% endblock %}
