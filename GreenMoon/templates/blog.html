@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block mybody %}
+<body>
+    <a href="/">Home</a><hr>
+    <div class="page">
+        <div class="metanav">
+            {% if not session.logged_in %}
+            <a href="{{ url_for('login') }}">log in</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">log out</a>
+            {% endif %}
+        </div>
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+    </div>
+    
+    {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method="post" class=add-entry>
+        <dl>
+            <dt>Title:
+            <dd><input type=text size=30 name=title>
+            <dt>Text:
+            <dd><textarea name=text rows=5 cols=40></textarea>
+            <dd><input type=submit value=Share>
+        </dl>
+    </form>
+    {% endif %}
+    
+    <ul class=posts>
+        {% for p in posts %}
+        <li><h3>Posted by: {{ p.nickname }}</h3> <h4>Title: {{ p.title }}</h4>
+            <h5>{{ p.body|safe }}</h5>
+            <br>
+            {% else %}
+            <br>
+        <li><em>Be the first to leave footprints on Green Moon</em>
+            {% endfor %}
+    </ul>
+    
+    {% block body %}{% endblock %}
+</body>
+{% endblock %}
