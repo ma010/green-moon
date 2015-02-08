@@ -126,22 +126,6 @@ def searchZip():
         return redirect('/licenseSearchResult')
     return render_template('searchZip.html', form=form)
 
-@app.route('/licenseSearchResult')
-def licenseSearchResult():
-    selectedZip = session['selectedZip']
-    if( selectedZip is None):
-        return redirect('/licenseAnalysis.html')
-    else:
-        output = licenseFromZip(selectedZip)
-        if (output == ""):
-            searchResult = "Search result is null."
-        else:
-            searchResult = output
-
-        return render_template('licenseSearchResult.html', title='Result',
-          selectedZip = selectedZip, searchResult = searchResult)
-
-
 # add a route to make zipcodeBoundaryChicago.geojson available
 @app.route('/zipcodeBoundaryChicago.geojson')
 def zipBoundary():
