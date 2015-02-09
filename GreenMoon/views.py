@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from flask import render_template, url_for, request, session, redirect, abort, flash
+from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
-from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip
+from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip, licenseRecommender
 from .forms import inputZipForm
 
 
@@ -64,8 +64,16 @@ def logout():
 def license():
     if request.method == 'POST':
         post_zip = request.form['post_zip']
+
+        #searchResult = post_zip+": Search result needs to be loaded from database !"
+        #recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
         searchResult = licenseFromZip(post_zip)
-        return searchResult
+        recommendedLicense = licenseRecommender(post_zip)
+
+        if searchResult == "":
+            searchResult = "No result found for ZIP: "+post_zip+" !"
+
+        return jsonify(searchResult=searchResult,recommendedLicense=recommendedLicense)
 
     return render_template('license.html')
 

@@ -36,10 +36,14 @@
 {% block content %}
 <section id="license">
     <div class="container">
-        <div id="map">
-        </div>
-        <p id="zip">Default zip</p>
-        <p id="searchResult">Default result</p>
+        <div class="row text-center">
+            <div class="col-md-8">
+                <div id="map"><div id="zip">Default ZIP</div></div>
+            </div>
+            <div class="col-md-4">
+                <p id="searchResult">Found Result</p>
+                <p id="recommendedLicense">Recommended License</p>
+            </div>
     </div>
 
     <script type="text/javascript" src="/static/js/license.js">
