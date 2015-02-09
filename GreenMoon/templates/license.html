@@ -117,7 +117,10 @@
                     });
 
                     layer.on('click',function(e) {
-                        $("#result").text(properties.ZIP)
+                        $("#result").text(properties.ZIP);
+                        $.post('/projects/license', {
+                            zip: "selectedZip"
+                        });
                     });
 
                     // Close the "anonymous" wrapper function, and call it while passing
@@ -133,29 +136,7 @@
             // add the featureLayer to map (on top of base map tile)
             map.addLayer(featureLayer);
         </script>
-        <div class="row">
-            <div class="col-lg-12 col-lg-12 text-center">
-                <h3>Search business license data by zip code.</h3>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12 col-lg-12 text-center">
-                <form action="" method="post" name="login">
-                    {{ form.hidden_tag() }}
-                    <p>
-                        Type in a zip code below:<br><br>
-                        {{ form.inputZip(size=20) }}
-                        {% for error in form.inputZip.errors %}
-                        <span style="color: purple;">[{{ error }}]</span>
-                        {% endfor %}<br>
-                    </p>
-                    <br>
-                    <p><input type="submit" value="lets go"></p>
-                </form>
-            </div>
-        </div>
-
+        {{searchResult}}
     </div>
 </section>
 

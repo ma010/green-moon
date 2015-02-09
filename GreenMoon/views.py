@@ -62,12 +62,12 @@ def logout():
 
 @app.route('/projects/license', methods=['GET', 'POST'])
 def license():
-    form = inputZipForm()
-    if form.validate_on_submit():
-        #flash('Login requested for OpenID="%s" ' % (form.openid.data))
-        session['selectedZip'] = form.inputZip.data
-        return redirect('/projects/license/licenseSearchResult')
-    return render_template('license.html', title='Data Map', form=form)
+    selectedZip = session['selectedZip']
+    # print(selectedZip)
+    if selectedZip:
+        searchResult = licenseFromZip(selectedZip)
+        # print(searchResult)
+    return render_template('license.html', searchResult=searchResult)
 
 @app.route('/projects/license/licenseSearchResult')
 def licenseSearchResult():
