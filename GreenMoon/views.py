@@ -66,6 +66,7 @@ def license():
     # print(selectedZip)
     if selectedZip:
         searchResult = licenseFromZip(selectedZip)
+        session.pop('selectedZip', None)
         # print(searchResult)
     return render_template('license.html', searchResult=searchResult)
 
