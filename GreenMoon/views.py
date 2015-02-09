@@ -66,8 +66,9 @@ def license():
     if request.method == 'POST':
         post_zip = request.form['post_zip']
         print(post_zip)
+        print(searchResult)
         searchResult = licenseFromZip(post_zip)
-
+        print(searchResult)
     return render_template('license.html', searchResult=searchResult)
 
 @app.route('/projects/license/licenseSearchResult')

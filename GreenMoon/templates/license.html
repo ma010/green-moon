@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block content %}
-
+<div id="result1"></div>
 <section id="license">
     <p id="result"></p>
     <div class="container">
@@ -118,7 +118,9 @@
 
                     layer.on('click',function(e) {
                         $("#result").text(properties.ZIP);
-                        $.post("/projects/license", {post_zip: properties.ZIP});
+                        $.post("/projects/license", {post_zip: properties.ZIP},function( data ) {
+                        $( "#result1" ).html( data );
+                        });
                     });
 
                     // Close the "anonymous" wrapper function, and call it while passing
