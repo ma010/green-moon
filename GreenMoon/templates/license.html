@@ -36,6 +36,7 @@
 {% block content %}
 
 <section id="license">
+    <p id="result"></p>
     <div class="container">
         <div id="map" style="width: 70%; height: 550px; margin:0 auto;"></div>
         <script type="text/javascript">
@@ -114,6 +115,11 @@
                         // And then destroying the popup
                         $("#popup-" + properties.ZIP).remove();
                     });
+
+                    layer.on('click',function(e) {
+                        $("#result").text(properties.ZIP)
+                    });
+
                     // Close the "anonymous" wrapper function, and call it while passing
                     // in the variables necessary to make the events work the way we want.
                 })(layer, feature.properties);
