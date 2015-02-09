@@ -83,8 +83,8 @@ var onEachFeature = function(feature, layer) {
                 {post_zip: properties.ZIP},
                 function( data ) {
                     var arr = $.map(data, function(el){return el;});
-                    $("#searchResult").html(arr[0]);
-                    $("#recommendedLicense").html(arr[1]);
+                    $("#searchResult").html(arr[1]);
+                    $("#recommendedLicense").html(arr[0]);
                 });
         });
 

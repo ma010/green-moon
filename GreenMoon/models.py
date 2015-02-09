@@ -137,13 +137,21 @@ def allTupleFromDB():
 
 def licenseFromZip(zipPick):
     output = ""
+    licenseFoundAtZip = dbMongo.activeLicense.find({'zip' : str(zipPick)})
+    for L in licenseFoundAtZip:
+        temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
+        output += temp + '++\t\n'
+    return output
+'''
+def licenseFromZip(zipPick):
+    output = ""
     temp = ""
     licenseFoundAtZip = dbMongo.activeLicense.find_one({'zip' : str(zipPick)})
     for k, val in licenseFoundAtZip['license'].items():
         temp = str(k) + ': '+ str(val)
         output += temp + '---'
     return output
-
+'''
 def licenseRecommender(zipPick):
     output = ""
     licenseFoundAtZip = dbMongo.activeLicense.find_one({'zip' : str(zipPick)})
