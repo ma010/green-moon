@@ -82,7 +82,9 @@ var onEachFeature = function(feature, layer) {
             $.post("/projects/license",
                 {post_zip: properties.ZIP},
                 function( data ) {
-                    $("#searchResult").html(data);
+                    var arr = $.map(data, function(el){return el;});
+                    $("#searchResult").html(arr[0]);
+                    $("#recommendedLicense").html(arr[1]);
                 });
         });
 

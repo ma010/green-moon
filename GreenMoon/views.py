@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import render_template, url_for, request, session, redirect, abort, flash
+from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
@@ -64,12 +64,16 @@ def logout():
 def license():
     if request.method == 'POST':
         post_zip = request.form['post_zip']
-        searchResult = licenseFromZip(post_zip)
 
-        #@hao: recommendedLicense is the variable that needs to be displayed as the third test box.
-        recommendedLicense = licenseRecommender(post_zip)
+        searchResult = post_zip+": Search result needs to be loaded from database !"
+        recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
+        #searchResult = licenseFromZip(post_zip)
+        #recommendedLicense = licenseRecommender(post_zip)
 
-        return searchResult
+        if searchResult == "":
+            searchResult = "No result found for ZIP: "+post_zip+" !"
+
+        return jsonify(searchResult=searchResult,recommendedLicense=recommendedLicense)
 
     return render_template('license.html')
 
