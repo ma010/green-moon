@@ -62,14 +62,12 @@ def logout():
 
 @app.route('/projects/license', methods=['GET', 'POST'])
 def license():
-    searchResult = "Default"
     if request.method == 'POST':
         post_zip = request.form['post_zip']
-        print(post_zip)
-        print(searchResult)
         searchResult = licenseFromZip(post_zip)
-        print(searchResult)
-    return render_template('license.html', searchResult=searchResult)
+        return searchResult
+
+    return render_template('license.html')
 
 @app.route('/projects/license/licenseSearchResult')
 def licenseSearchResult():

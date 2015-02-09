@@ -32,3 +32,24 @@ iframe{
     position: absolute;
     bottom: 0;
 }
+
+#zip {
+    margin: 50px auto 50px auto;
+    border: 1px solid black;
+    min-height: 50px;
+}
+
+#searchResult {
+    margin: 50px auto 50px auto;
+    border: 1px solid black;
+    min-height: 50px;
+}
+
+#map {
+    margin-top: 50px;
+    width: 90%;
+    height: 500px;
+    border: 1px solid blue;
+    margin-left: auto;
+    margin-right: auto;
+}
