@@ -62,21 +62,19 @@ def logout():
 
 @app.route('/projects/license', methods=['GET', 'POST'])
 def license():
-    print(session.keys())
-    if 'post_zip' in session.keys():
-        zipSelected = session['post_zip']
-        print(zipSelected)
-        if zipSelected:
-            searchResult = licenseFromZip(zipSelected)
-            # session.pop('selectedZip', None)
-            print(session['post_zip'])
-        # print(searchResult)
+    searchResult = "Default"
+    if request.method == 'POST':
+        post_zip = request.json['post_zip']
+        print(post_zip)
+        searchResult = licenseFromZip(post_zip)
+
     return render_template('license.html', searchResult=searchResult)
-    # return 'hello'
+    #return 'hello'
 
 @app.route('/projects/license/licenseSearchResult')
 def licenseSearchResult():
     selectedZip = session['selectedZip']
+    selectedZip = session['csrf_token']
     if( selectedZip is None):
         return redirect('/licenseAnalysis.html')
     else:
