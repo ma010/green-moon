@@ -65,10 +65,10 @@ def license():
     if request.method == 'POST':
         post_zip = request.form['post_zip']
 
-        searchResult = post_zip+": Search result needs to be loaded from database !"
-        recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
-        #searchResult = licenseFromZip(post_zip)
-        #recommendedLicense = licenseRecommender(post_zip)
+        #searchResult = post_zip+": Search result needs to be loaded from database !"
+        #recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
+        searchResult = licenseFromZip(post_zip)
+        recommendedLicense = licenseRecommender(post_zip)
 
         if searchResult == "":
             searchResult = "No result found for ZIP: "+post_zip+" !"
