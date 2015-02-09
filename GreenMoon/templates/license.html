@@ -119,7 +119,7 @@
                     layer.on('click',function(e) {
                         $("#result").text(properties.ZIP);
                         $.post('/projects/license', {
-                            zip: "selectedZip"
+                            post_zip: properties.ZIP
                         });
                     });
 
