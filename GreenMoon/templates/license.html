@@ -70,9 +70,53 @@
                 fillColor: "#2262CC"
             };
 
+            var highlightStyle = {
+                color: '#2262CC',
+                weight: 3,
+                opacity: 0.6,
+                fillOpacity: 0.65,
+                fillColor: '#2262CC'
+            };
+
             // define a function to add style to featureLayer
             var onEachFeature = function(feature, layer) {
                 layer.setStyle(defaultStyle);
+                (function(layer, properties) {
+                    // Create a mouseover event
+                    layer.on("mouseover", function (e) {
+                        // Change the style to the highlighted version
+                        layer.setStyle(highlightStyle);
+                        // Create a popup with a unique ID linked to this record
+                        var popup = $("<div></div>", {
+                            id: "popup-" + properties.ZIP,
+                            css: {
+                                position: "absolute",
+                                bottom: "85px",
+                                left: "50px",
+                                zIndex: 1002,
+                                backgroundColor: "white",
+                                padding: "8px",
+                                border: "1px solid #ccc"
+                            }
+                        });
+                        // Insert a headline into that popup
+                        var hed = $("<div></div>", {
+                            text: "Area Zip: " + properties.ZIP,
+                            css: {fontSize: "16px", marginBottom: "3px"}
+                        }).appendTo(popup);
+                        // Add the popup to the map
+                        popup.appendTo("#map");
+                    });
+                    // Create a mouseout event that undoes the mouseover changes
+                    layer.on("mouseout", function (e) {
+                        // Start by reverting the style back
+                        layer.setStyle(defaultStyle);
+                        // And then destroying the popup
+                        $("#popup-" + properties.ZIP).remove();
+                    });
+                    // Close the "anonymous" wrapper function, and call it while passing
+                    // in the variables necessary to make the events work the way we want.
+                })(layer, feature.properties);
             };
 
             // add geojson data and style to featureLayer
