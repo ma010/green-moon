@@ -4,7 +4,7 @@ from flask import render_template, url_for, request, session, redirect, abort, f
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
-from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip
+from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip, licenseRecommender
 from .forms import inputZipForm
 
 
@@ -68,7 +68,7 @@ def license():
 
         #@hao: recommendedLicense is the variable that needs to be displayed as the third test box.
         recommendedLicense = licenseRecommender(post_zip)
-        
+
         return searchResult
 
     return render_template('license.html')
