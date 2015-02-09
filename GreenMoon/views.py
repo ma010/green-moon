@@ -65,6 +65,10 @@ def license():
     if request.method == 'POST':
         post_zip = request.form['post_zip']
         searchResult = licenseFromZip(post_zip)
+
+        #@hao: recommendedLicense is the variable that needs to be displayed as the third test box.
+        recommendedLicense = licenseRecommender(post_zip)
+        
         return searchResult
 
     return render_template('license.html')
