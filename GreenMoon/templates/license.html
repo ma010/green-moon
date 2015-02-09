@@ -118,8 +118,16 @@
 
                     layer.on('click',function(e) {
                         $("#result").text(properties.ZIP);
-                        $.post('/projects/license', {
-                            post_zip: properties.ZIP
+                        $.ajax({
+                              type: "POST",
+                              contentType: "application/json; charset=utf-8",
+                              url: "/projects/license",
+                              data: JSON.stringify({post_zip: properties.ZIP}),
+                              success: function (data) {
+                                                  console.log(data.title);
+                                                  console.log(data.article);
+                                                    },
+                              dataType: "json"
                         });
                     });
 
@@ -136,7 +144,9 @@
             // add the featureLayer to map (on top of base map tile)
             map.addLayer(featureLayer);
         </script>
+        {% if searchResult %}
         {{searchResult}}
+        {% endif %}
     </div>
 </section>
 
