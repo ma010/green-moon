@@ -118,17 +118,7 @@
 
                     layer.on('click',function(e) {
                         $("#result").text(properties.ZIP);
-                        $.ajax({
-                              type: "POST",
-                              contentType: "application/json; charset=utf-8",
-                              url: "/projects/license",
-                              data: JSON.stringify({post_zip: properties.ZIP}),
-                              success: function (data) {
-                                                  console.log(data.title);
-                                                  console.log(data.article);
-                                                    },
-                              dataType: "json"
-                        });
+                        $.post("/projects/license", {post_zip: properties.ZIP});
                     });
 
                     // Close the "anonymous" wrapper function, and call it while passing

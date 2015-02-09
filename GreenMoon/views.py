@@ -64,7 +64,7 @@ def logout():
 def license():
     searchResult = "Default"
     if request.method == 'POST':
-        post_zip = request.json['post_zip']
+        post_zip = request.form['post_zip']
         print(post_zip)
         searchResult = licenseFromZip(post_zip)
 
