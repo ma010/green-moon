@@ -32,3 +32,37 @@ iframe{
     position: absolute;
     bottom: 0;
 }
+
+#license #map {
+    margin-top: 20px;
+    width: 100%;
+    height: 500px;
+    border: 1px solid blue;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#license #zip {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+    border: 1px solid black;
+    min-height: 50px;
+    height: 50px;
+    line-height: 50px;
+    width: 100px;
+    z-index: 3000;
+}
+
+#license #searchResult {
+    margin-top: 20px;
+    border: 1px solid black;
+    height: 240px;
+}
+
+#license #recommendedLicense {
+    margin-top: 20px;
+    border: 1px solid black;
+    height: 240px;
+}

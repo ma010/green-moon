@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from flask import render_template, url_for, request, session, redirect, abort, flash
+from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify, json
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
-from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip
+from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip, licenseRecommender
 from .forms import inputZipForm
 
 
@@ -62,14 +62,25 @@ def logout():
 
 @app.route('/projects/license', methods=['GET', 'POST'])
 def license():
-    searchResult = "Default"
     if request.method == 'POST':
         post_zip = request.form['post_zip']
-        print(post_zip)
-        print(searchResult)
+
+        #searchResult = post_zip+": Search result needs to be loaded from database !"
+        #recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
         searchResult = licenseFromZip(post_zip)
+        recommendedLicense = licenseRecommender(post_zip)
+        if recommendedLicense == []:
+            recommendedLicense = 'Yay, our current tagging strategy suggests that business licenses are well balanced!'
         print(searchResult)
-    return render_template('license.html', searchResult=searchResult)
+        print(recommendedLicense)
+
+        if searchResult == "":
+            searchResult = "No result found for ZIP: "+post_zip+" !"
+
+        # jsonify recently started accepting list obj, require jsonify(items=[your list])
+        return jsonify(searchResult=[searchResult],recommendedLicense=[recommendedLicense])
+        
+    return render_template('license.html')
 
 @app.route('/projects/license/licenseSearchResult')
 def licenseSearchResult():
