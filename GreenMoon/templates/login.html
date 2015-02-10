@@ -31,7 +31,7 @@
     }
     function doUpdate(num)
     {
-        document.getElementById('autojump').innerHTML = 'You have already logined in, now jumping to blog in '+num+' seconds ...' ;
+        document.getElementById('autojump').innerHTML = 'You have already logged in, now jumping to blog in '+num+' seconds ...' ;
         if(num == 0) { window.location=URL; }
     }
 </script>
@@ -172,7 +172,7 @@
             {% endfor %}
             <div class="col-xs-12">
                 <div class="form-wrap">
-                    <h1>Welcome to login in</h1>
+                    <h1>Welcome to log in</h1>
                     <form role="form" action="/projects/blog/login" method="post" id="login-form" autocomplete="off">
                         <div class="form-group">
                             <label for="name" class="sr-only">Email</label>

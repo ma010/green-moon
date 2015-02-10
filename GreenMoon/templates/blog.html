@@ -31,7 +31,7 @@
                     <a id="nav1" class="page-scroll" href="#page-top">Sign up</a>
                 </li>
                 <li>
-                    <a id="nav2" class="page-scroll" href="/projects/blog/login">Login in</a>
+                    <a id="nav2" class="page-scroll" href="/projects/blog/login">Log in</a>
                 </li>
             </ul>
         </div>
@@ -53,11 +53,11 @@
                 {% endfor %}
 
                 {% if not session.logged_in %}
-                    <h1>Please login in to post!</h1>
+                    <h1>Please log in to post!</h1>
                 {% else %}
                     <script>
                         $("#nav1").text("Hello, {{ session['nickname'] }} !");
-                        $("#nav2").text("Login out");
+                        $("#nav2").text("Log out");
                         $("#nav2").attr("href","/projects/blog/logout");
                     </script>
 
