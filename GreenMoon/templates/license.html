@@ -117,10 +117,12 @@
                     });
 
                     layer.on('click',function(e) {
-                        $("#result").text(properties.ZIP);
+
                         $.post("/projects/license", {post_zip: properties.ZIP},function( data ) {
-                        $( "#result1" ).html( data );
+                            $( "#result1" ).html( data );
                         });
+                        $("#result").text(properties.ZIP);
+
                     });
 
                     // Close the "anonymous" wrapper function, and call it while passing
