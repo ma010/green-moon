@@ -144,10 +144,62 @@ def licenseFromZip(zipPick):
         output += temp + '---'
     return output
 
+
+'''This tagging is only performed to reduce computational complexity,
+Tags are subject to fine tuning, depending on specific analysis.'''
+
+def licenseTagging(licenseCountAtZip):
+    licenseTags = ['Diner and bar options', 'Animal Care options', 'Fitness options', 'Market options', 'Gas options',                   'Manufacturing related', 'Outdoor Activity options', 'Garage and Valet options',                    'Motor Vehicle Services', 'Children\'s Services options', 'Tobacco and Liquor',                    'Other Sale options', 'Others']
+    taggedLicenseAtZip = {}
+
+    for k in licenseTags:
+        taggedLicenseAtZip[k] = 0;
+
+    for k, val in licenseCountAtZip.items():
+        if(k =='Music and Dance' or k =='Class A - Indoor Special Event' or 'Food - Shared Kitchen' or
+           k =='Tavern' or k =='Liquor Airport Pushcart License' or k =='Food - Shared Kitchen Long-Term User' or
+           k =='Consumption on Premises - Incidental Activity' or k =='Caterer\'s Liquor License' or
+           k =='Caterer\'s Registration (Liquor)' or k =='Retail Food Establishment' or
+           k =='Food - Shared Kitchen - Supplemental' or k =='Food - Shared Kitchen Short-Term User'):
+            taggedLicenseAtZip['Diner and bar options'] += val
+        if(k =='Animal Care License'):
+            taggedLicenseAtZip['Animal Care options'] += val
+        if(k =='Explosives, Certificate of Fitness'):
+            taggedLicenseAtZip['Fitness options'] += val
+        if(k =='Wholesale Food Establishment' or k =='Mobile Food License' or k =='Package Goods' or
+           k =='Itinerant Merchant' or k =='Peddler License'):
+            taggedLicenseAtZip['Market options'] += val
+        if(k =='Filling Station'):
+            taggedLicenseAtZip['Gas options'] += val
+        if(k =='Bicycle Messenger Service' or k =='Manufacturing Establishments'):
+            taggedLicenseAtZip['Manufacturing related'] += val
+        if(k =='Outdoor Patio' or k =='Navy Pier Kiosk License' or k =='Public Place of Amusement' or
+           k =='Wrigley Field' or k =='Navy Pier - Mobile'):
+            taggedLicenseAtZip['Outdoor Activity options'] += val
+        if(k =='Accessory Garage' or k =='Public Garage' or k =='Valet Parking Operator'):
+            taggedLicenseAtZip['Garage and Valet options'] += val
+        if(k =='Motor Vehicle Services License'):
+            taggedLicenseAtZip['Motor Vehicle Services'] += val
+        if(k =='Children\'s Services Facility License'):
+            taggedLicenseAtZip['Children\'s Services options'] += val
+        if(k =='Tobacco Retail Over Counter' or k =='Tobacco Sampler' or k =='Tobacco Dealer Wholesale'):
+            taggedLicenseAtZip['Tobacco and Liquor'] += val
+        if(k =='License Broker' or k =='Secondhand Dealer (Includes Valuable Objects)' or
+           k =='Secondhand Dealer (No Valuable Objects)'):
+            taggedLicenseAtZip['Other Sale options'] += val
+        else:
+            taggedLicenseAtZip['Others'] += val
+
+    return taggedLicenseAtZip
+
+
 def licenseRecommender(zipPick):
     output = ""
     licenseFoundAtZip = dbMongo.activeLicense.find_one({'zip' : str(zipPick)})
-    existingLicenses = list(licenseFoundAtZip['license'].keys())
+    originalLicenseAtZip = (licenseFoundAtZip['license'])
+    taggedLicenseAtZip = licenseTagging(originalLicenseAtZip)
+
+    existingLicenses = list(taggedLicenseAtZip.keys())
     # This part of the code is harded code for now, will compute these frequent pairs
     # on server and create a new businessDB.freq collection.
 
@@ -157,7 +209,7 @@ def licenseRecommender(zipPick):
     licenseRec = []
 
     for L in list1:
-        if(L[0] in existingLicenses):
+        if(L[0] not in existingLicenses):
             licenseRec.append(L[0])
     for c in list2:
         if(c[0] in existingLicenses and c[1] not in existingLicenses and c[1] not in licenseRec):
@@ -172,4 +224,6 @@ def licenseRecommender(zipPick):
         for t_l in t:
             if(t_l not in existingLicenses and t_l not in licenseRec):
                 licenseRec.append(t_l)
+    
     return licenseRec
+

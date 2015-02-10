@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify
+from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify, json
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
@@ -69,12 +69,17 @@ def license():
         #recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
         searchResult = licenseFromZip(post_zip)
         recommendedLicense = licenseRecommender(post_zip)
+        if recommendedLicense == []:
+            recommendedLicense = 'Yay, our current tagging strategy suggests that business licenses are well balanced!'
+        print(searchResult)
+        print(recommendedLicense)
 
         if searchResult == "":
             searchResult = "No result found for ZIP: "+post_zip+" !"
 
-        return jsonify(searchResult=searchResult,recommendedLicense=recommendedLicense)
-
+        # jsonify recently started accepting list obj, require jsonify(items=[your list])
+        return jsonify(searchResult=[searchResult],recommendedLicense=[recommendedLicense])
+        
     return render_template('license.html')
 
 @app.route('/projects/license/licenseSearchResult')
