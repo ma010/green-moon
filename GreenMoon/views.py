@@ -4,8 +4,7 @@ from flask import render_template, url_for, request, session, redirect, abort, f
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
-from GreenMoon.models import Account, Post, allTupleFromDB, licenseFromZip, licenseRecommender
-from .forms import inputZipForm
+from GreenMoon.models import Account, Post, licenseFromZip, licenseRecommender
 
 
 @app.route('/')
@@ -60,43 +59,6 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('blog'))
 
-@app.route('/projects/license', methods=['GET', 'POST'])
-def license():
-    if request.method == 'POST':
-        post_zip = request.form['post_zip']
-
-        #searchResult = post_zip+": Search result needs to be loaded from database !"
-        #recommendedLicense = post_zip+": Recommended license needs to be loaded from database !"
-        searchResult = licenseFromZip(post_zip)
-        recommendedLicense = licenseRecommender(post_zip)
-        if recommendedLicense == []:
-            recommendedLicense = 'Yay, our current tagging strategy suggests that business licenses are well balanced!'
-        print(searchResult)
-        print(recommendedLicense)
-
-        if searchResult == "":
-            searchResult = "No result found for ZIP: "+post_zip+" !"
-
-        # jsonify recently started accepting list obj, require jsonify(items=[your list])
-        return jsonify(searchResult=[searchResult],recommendedLicense=[recommendedLicense])
-        
-    return render_template('license.html')
-
-@app.route('/projects/license/licenseSearchResult')
-def licenseSearchResult():
-    selectedZip = session['selectedZip']
-    if( selectedZip is None):
-        return redirect('/licenseAnalysis.html')
-    else:
-        output = licenseFromZip(selectedZip)
-        if (output == ""):
-            searchResult = "Search result is null."
-        else:
-            searchResult = output
-
-        return render_template('licenseSearchResult.html', title='Result',
-          selectedZip = selectedZip, searchResult = searchResult)
-
 # define sign up page
 @app.route('/sign')
 def sign():
@@ -111,15 +73,30 @@ def add_entry():
     body = request.form['text']
     timestamp = datetime.now()
     nickname = session['nickname']
-    post = Post(title=title, body=body, timestamp = timestamp, nickname = nickname)
-    #
-    # dbSQL.execute('insert into posts (id=title, body=text) values (?, ?)',
-    #              [request.form['title'], request.form['text']])
+    post = Post(title=title, body=body, timestamp=timestamp, nickname=nickname)
     dbSQL.session.add(post)
     dbSQL.session.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
+@app.route('/projects/license', methods=['GET', 'POST'])
+def license():
+    if request.method == 'POST':
+        post_zip = request.form['post_zip']
+        searchResult = licenseFromZip(post_zip)
+        recommendedLicense = licenseRecommender(post_zip)
+        if recommendedLicense == []:
+            recommendedLicense = 'Yay, our current tagging strategy suggests that business licenses are well balanced!'
+        print(searchResult)
+        print(recommendedLicense)
+
+        if searchResult == "":
+            searchResult = "No result found for ZIP: "+post_zip+" !"
+
+        # jsonify recently started accepting list obj, require jsonify(items=[your list])
+        return jsonify(searchResult=[searchResult],recommendedLicense=[recommendedLicense])
+
+    return render_template('license.html')
 
 @app.route('/projects/bikes')
 def bikes():
@@ -129,23 +106,10 @@ def bikes():
 def twitter():
     return render_template('twitter.html')
 
-@app.route('/map')
-def project2():
-    return allTupleFromDB()
-
 @app.route('/research')
 def research():
     return render_template('research.html',
                            title='Research')
-
-@app.route('/searchZip', methods=['GET', 'POST'])
-def searchZip():
-    form = inputZipForm()
-    if form.validate_on_submit():
-        #flash('Login requested for OpenID="%s" ' % (form.openid.data))
-        session['selectedZip'] = form.inputZip.data
-        return redirect('/licenseSearchResult')
-    return render_template('searchZip.html', form=form)
 
 # add a route to make zipcodeBoundaryChicago.geojson available
 @app.route('/zipcodeBoundaryChicago.geojson')
