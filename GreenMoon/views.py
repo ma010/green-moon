@@ -1,3 +1,8 @@
+"""
+    This is the View module to
+    control all the view functions
+"""
+
 from datetime import datetime
 
 from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify, json
@@ -10,22 +15,20 @@ from GreenMoon.models import Account, Post, licenseFromZip, licenseRecommender
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html',
-                            title='Home')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
+    """
+       This function defines the index page to be the Home page
+    """
+    return render_template('index.html', title='Home')
 
 @app.route('/projects')
 def projects():
     id = 'page-top'
-    return render_template('index.html',id='portfolio')
+    return render_template('index.html', id='portfolio')
 
 @app.route('/projects/blog')
 def blog():
     posts = dbSQL.session.query(Post).all()
-    return render_template('blog.html', posts = posts)
+    return render_template('blog.html', posts=posts)
 
 # define login
 @app.route('/projects/blog/login', methods=['GET', 'POST'])
@@ -39,7 +42,7 @@ def login():
         print(nickname)
         if user is None:
             error = 'Invalid nickname'
-        elif check_password_hash(user.password_hash, pwd)==False:
+        elif not check_password_hash(user.password_hash, pwd):
             error = 'Invalid password'
         else:
             session['logged_in'] = True
@@ -79,8 +82,8 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
-@app.route('/projects/license', methods=['GET', 'POST'])
-def license():
+@app.route('/projects/businesslicense', methods=['GET', 'POST'])
+def businesslicense():
     if request.method == 'POST':
         post_zip = request.form['post_zip']
         searchResult = licenseFromZip(post_zip)
@@ -94,7 +97,7 @@ def license():
             searchResult = "No result found for ZIP: "+post_zip+" !"
 
         # jsonify recently started accepting list obj, require jsonify(items=[your list])
-        return jsonify(searchResult=[searchResult],recommendedLicense=[recommendedLicense])
+        return jsonify(searchResult=[searchResult], recommendedLicense=[recommendedLicense])
 
     return render_template('license.html')
 
