@@ -5,7 +5,7 @@
 
 from datetime import datetime
 
-from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify, json
+from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
@@ -129,7 +129,8 @@ def businesslicense():
         searchResult = licenseFromZip(post_zip)
         recommendedLicense = licenseRecommender(post_zip)
         if recommendedLicense == []:
-            recommendedLicense = 'Yay, our current tagging strategy suggests that business licenses are well balanced!'
+            recommendedLicense = 'Yay, our current tagging strategy suggests ' \
+                                 'that business licenses are well balanced!'
         print(searchResult)
         print(recommendedLicense)
 
@@ -179,7 +180,6 @@ def zipboundary():
     which primarily involves the latitude and longitude pairs.
     The data file is named as zipcodes.geojson.
     This makes the data readily available for javascript variables in license.js
-    :return:
+    :return: zipcodes.geojson
     """
-
     return render_template('zipcodes.geojson', title='Zip Boundary')
