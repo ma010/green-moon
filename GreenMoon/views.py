@@ -16,23 +16,46 @@ from GreenMoon.models import Account, Post, licenseFromZip, licenseRecommender
 @app.route('/index')
 def index():
     """
-       This function defines the index page to be the Home page
+    This function defines the index page to be the Home page
+    :return: index.html
     """
     return render_template('index.html', title='Home')
 
+@app.route('/about')
+def about():
+    """
+    This function defines the about page to
+        introduce the website
+    :return: about.html
+    """
+    return render_template('about.html')
+
 @app.route('/projects')
 def projects():
+    """
+    This function defines the projects page to
+        show our portfolio
+    :return: porfolio section in index.html
+    """
     id = 'page-top'
     return render_template('index.html', id='portfolio')
 
 @app.route('/projects/blog')
 def blog():
+    """
+    This function defines the blog page.
+    Initial feature includes presenting all the posts.
+    :return: return blog.html
+    """
     posts = dbSQL.session.query(Post).all()
     return render_template('blog.html', posts=posts)
 
-# define login
 @app.route('/projects/blog/login', methods=['GET', 'POST'])
 def login():
+    """
+    This function defines the login page
+    :return: login.html
+    """
     error = None
 
     if request.method == 'POST':
@@ -54,22 +77,33 @@ def login():
 
     return render_template('login.html', error=error)
 
-# define logout
 @app.route('/projects/blog/logout')
 def logout():
+    """
+    This functions defines the logout feature.
+    Once logged out, user is redirected to the blog page.
+    :return: blog.html
+    """
     session.pop('logged_in', None)
     session.pop('nickname', None)
     flash('You were logged out')
     return redirect(url_for('blog'))
 
-# define sign up page
 @app.route('/sign')
 def sign():
+    """
+    This function defines the sign up page
+    :return: sign.html
+    """
     return render_template('sign.html')
 
-# define a page to add post after log-in
 @app.route('/add', methods=['POST'])
 def add_entry():
+    """
+    This function defines the add_entry feature for logged-in users.
+    Once an entry is added, user is redirected to the blog page
+    :return: blog.html
+    """
     if not session.get('logged_in'):
         abort(401)
     title = request.form['title']
@@ -82,8 +116,14 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
-@app.route('/projects/businesslicense', methods=['GET', 'POST'])
+@app.route('/projects/BusinessLicense', methods=['GET', 'POST'])
 def businesslicense():
+    """
+    This function defines the license page to
+    show our analysis of business license information
+    from City of Chicago data portal
+    :return: license.html
+    """
     if request.method == 'POST':
         post_zip = request.form['post_zip']
         searchResult = licenseFromZip(post_zip)
@@ -103,19 +143,43 @@ def businesslicense():
 
 @app.route('/projects/bikes')
 def bikes():
+    """
+    This functions defines a bikes page to
+    show the analysis and visualization of
+    divvy bike data
+    :return: bikes.html
+    """
     return render_template('bikes.html')
 
 @app.route('/projects/twitter')
 def twitter():
+    """
+    This function defines a twitter page to
+    show the analysis and visualization of
+    twitter data
+    :return: twitter.html
+    """
     return render_template('twitter.html')
 
 @app.route('/research')
 def research():
+    """
+    This function defines a research page to
+    show the research projects our team members
+    have done in the past
+    :return: research.html
+    """
     return render_template('research.html',
                            title='Research')
 
-# add a route to make zipcodeBoundaryChicago.geojson available
-@app.route('/zipcodeBoundaryChicago.geojson')
-def zipBoundary():
-    return render_template('zipcodes.geojson',
-                           title='Zip Boundary')
+@app.route('/ChicagoZipcodeBoundary.geojson')
+def zipboundary():
+    """
+    This function adds a route to provide Chicago zip code boundary data,
+    which primarily involves the latitude and longitude pairs.
+    The data file is named as zipcodes.geojson.
+    This makes the data readily available for javascript variables in license.js
+    :return:
+    """
+
+    return render_template('zipcodes.geojson', title='Zip Boundary')
