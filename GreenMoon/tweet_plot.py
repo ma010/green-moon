@@ -5,9 +5,9 @@ from bokeh.embed import file_html, components
 
 # make a pandas dataframe called tweets
 # tweets.columns = ['time', 'sentiment score', 'color']
-# if pos counts / neg counts > 1, sentiment score = pos
-# if pos counts / neg counts = 1, sentiment score = neu
-# if pos counts / neg counts > 1, sentiment score = neg
+# if pos counts / neg counts > 1, sentiment score = positive
+# if pos counts / neg counts = 1, sentiment score = neutral
+# if pos counts / neg counts > 1, sentiment score = negative
 
 
 colormap = {'pos': 'green', 'neu': 'yellow', 'neg': 'red'}
