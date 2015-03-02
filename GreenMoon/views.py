@@ -4,7 +4,6 @@
 """
 
 from datetime import datetime
-
 from flask import render_template, url_for, request, session, redirect, abort, flash, jsonify
 from werkzeug.security import check_password_hash
 
@@ -117,7 +116,7 @@ def add_entry():
     return redirect(url_for('blog'))
 
 @app.route('/projects/BusinessLicense', methods=['GET', 'POST'])
-def businesslicense():
+def business_license():
     """
     This function defines the license page to
     show our analysis of business license information
@@ -170,8 +169,7 @@ def research():
     have done in the past
     :return: research.html
     """
-    return render_template('research.html',
-                           title='Research')
+    return render_template('research.html', title='Research')
 
 @app.route('/ChicagoZipcodeBoundary.geojson')
 def zipboundary():
