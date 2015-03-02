@@ -17,7 +17,7 @@ p = figure(title = "Sentiment change over time")
 p.xaxis.axis_label = 'Time'
 p.yaxis.axis_label = 'Sentiment Counts'
 
-p.circle(tweets["petal_length"], tweets["petal_width"],
+p.circle(tweets["time"], tweets["sentiment score"],
         color=tweets["color"], fill_alpha=0.2, size=10, )
 
 show(p)
