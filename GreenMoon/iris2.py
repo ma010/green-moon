@@ -1,18 +1,24 @@
 import sys
-from bokeh.sampledata.iris import flowers
 from bokeh.plotting import *
 from bokeh.resources import CDN
 from bokeh.embed import file_html, components
 
-colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
-flowers['color'] = flowers['species'].map(lambda x: colormap[x])
+# make a pandas dataframe called tweets
+# tweets.columns = ['time', 'sentiment score', 'color']
+# if pos counts / neg counts > 1, sentiment score = pos
+# if pos counts / neg counts = 1, sentiment score = neu
+# if pos counts / neg counts > 1, sentiment score = neg
 
-p = figure(title = "Iris Morphology")
-p.xaxis.axis_label = 'Petal Length'
-p.yaxis.axis_label = 'Petal Width'
 
-p.circle(flowers["petal_length"], flowers["petal_width"],
-        color=flowers["color"], fill_alpha=0.2, size=10, )
+colormap = {'pos': 'green', 'neu': 'yellow', 'neg': 'red'}
+tweets['color'] = tweets['sentiment score'].map(lambda x: colormap[x])
+
+p = figure(title = "Sentiment change over time")
+p.xaxis.axis_label = 'Time'
+p.yaxis.axis_label = 'Sentiment Counts'
+
+p.circle(tweets["petal_length"], tweets["petal_width"],
+        color=tweets["color"], fill_alpha=0.2, size=10, )
 
 show(p)
 

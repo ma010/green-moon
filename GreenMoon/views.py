@@ -166,13 +166,14 @@ def research():
     """
     This function defines a research page to
     show the research projects our team members
-    have done in the past
+    have done in the past. This page is still
+    under development
     :return: research.html
     """
     return render_template('research.html', title='Research')
 
 @app.route('/ChicagoZipcodeBoundary.geojson')
-def zipboundary():
+def zip_boundary():
     """
     This function adds a route to provide Chicago zip code boundary data,
     which primarily involves the latitude and longitude pairs.
