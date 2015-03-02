@@ -13,38 +13,37 @@ number_all_tweet_batches = all_tweet_batches.count()
 
 # make a pandas dataframe called tweets
 # tweets.columns = ['time', 'sentiment score', 'color']
-# if pos counts / neg counts > 1, sentiment score = positive
-# if pos counts / neg counts = 1, sentiment score = neutral
-# if pos counts / neg counts > 1, sentiment score = negative
-tweets = pd.DataFrame(data=None, index=range(number_all_tweet_batches), columns=['time', 'sentiment score', 'color'])
+# if pos counts / neg counts > 1, sentiment score = positive = 1
+# if pos counts / neg counts = 1, sentiment score = neutral = 0
+# if pos counts / neg counts > 1, sentiment score = negative = -1
+tweets = pd.DataFrame(data=None, index=range(number_all_tweet_batches), columns=['time', 'sentiment', 'sentiment score', 'color'])
 
 for tweet_batch_number in range(number_all_tweet_batches):
     tweet_batch = all_tweet_batches[tweet_batch_number]
     tweets.loc[tweet_batch_number, 'time'] = tweet_batch['timeStampDHM']
     # typo in tweetDB needs to be corrected: SetimentScores
     sentiment_score = tweet_batch['SetimentScores'].count('pos') / tweet_batch['SetimentScores'].count('neg')
+    tweets.loc[tweet_batch_number, 'sentiment score'] = sentiment_score
     if sentiment_score > 1:
-        tweets.loc[tweet_batch_number, 'sentiment score'] = 'pos'
+        tweets.loc[tweet_batch_number, 'sentiment'] = 'pos'
         tweets.loc[tweet_batch_number, 'color'] = 'green'
     elif sentiment_score == 1:
-        tweets.loc[tweet_batch_number, 'sentiment score'] = 'neu'
+        tweets.loc[tweet_batch_number, 'sentiment'] = 'neu'
         tweets.loc[tweet_batch_number, 'color'] = 'yellow'
     else:
-        tweets.loc[tweet_batch_number, 'sentiment score'] = 'neg'
+        tweets.loc[tweet_batch_number, 'sentiment'] = 'neg'
         tweets.loc[tweet_batch_number, 'color'] = 'red'
 
-print(tweets)
 
-
+# making a plot using bokeh
 colormap = {'pos': 'green', 'neu': 'yellow', 'neg': 'red'}
-tweets['color'] = tweets['sentiment score'].map(lambda x: colormap[x])
+tweets['color'] = tweets['sentiment'].map(lambda x: colormap[x])
 
 p = figure(title = "Sentiment change over time")
-print(type(p))
 p.xaxis.axis_label = 'Time'
-p.yaxis.axis_label = 'Sentiment Counts'
+p.yaxis.axis_label = 'Sentiment Counts (positive tweets / negative tweets)'
 
-p.circle(tweets["time"], tweets["sentiment score"],
+p.circle(tweets.index, tweets["sentiment score"],
         color=tweets["color"], fill_alpha=0.2, size=10, )
 
 show(p)
