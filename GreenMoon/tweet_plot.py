@@ -4,6 +4,7 @@ from bokeh.resources import CDN
 from bokeh.embed import file_html, components
 from pymongo import Connection
 import pandas as pd
+from math import pi as pi
 
 mongo_connection = Connection()
 tweet_db = mongo_connection.tweetDB
@@ -34,16 +35,25 @@ for tweet_batch_number in range(number_all_tweet_batches):
         tweets.loc[tweet_batch_number, 'sentiment'] = 'neg'
         tweets.loc[tweet_batch_number, 'color'] = 'red'
 
-
+print(tweets)
+print(list(tweets['time']))
 # making a plot using bokeh
 colormap = {'pos': 'green', 'neu': 'yellow', 'neg': 'red'}
 tweets['color'] = tweets['sentiment'].map(lambda x: colormap[x])
 
-p = figure(title = "Sentiment change over time")
-p.xaxis.axis_label = 'Time'
-p.yaxis.axis_label = 'Sentiment Counts (positive tweets / negative tweets)'
+p = figure(title = "Sentiment change over time",
+           title_text_font_size="20pt",
+           plot_width=1150,
+           plot_height=500,
+           # outline_line_color="red",
+           x_range=list(tweets['time'])
+)
 
-p.circle(tweets.index, tweets["sentiment score"],
+p.xaxis.axis_label = 'Time'
+p.yaxis.axis_label = 'Sentiment Score' # (positive tweets / negative tweets)'
+p.xaxis.major_label_orientation = pi/4
+
+p.circle(tweets['time'], tweets["sentiment score"],
         color=tweets["color"], fill_alpha=0.2, size=10, )
 
 show(p)
