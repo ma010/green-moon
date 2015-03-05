@@ -115,8 +115,8 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
 
-@app.route('/projects/BusinessLicense', methods=['GET', 'POST'])
-def business_license():
+@app.route('/projects/license', methods=['GET', 'POST'])
+def license():
     """
     This function defines the license page to
     show our analysis of business license information

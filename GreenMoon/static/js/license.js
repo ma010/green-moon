@@ -79,7 +79,7 @@ var onEachFeature = function(feature, layer) {
 
         layer.on('click',function(e) {
             $("#zip").text(properties.ZIP);
-            $.post("/projects/BusinessLicense",
+            $.post("/projects/license",
                 {post_zip: properties.ZIP},
                 function( data ) {
                     var arr = $.map(data, function(el){return el;});
