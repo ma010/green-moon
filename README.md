@@ -1,4 +1,7 @@
 # green-moon
-Run db_init.py first to init the database.
+To set it up locally, please clone the repo. Run db_init.py first to init the database. Then run.py to start a server.
 
-Then run.py to start a server.
+Currently we are no longer maintaining the website.
+
+This is an image showing the front page.
+![alt text](./img/GreenMoon.png)
