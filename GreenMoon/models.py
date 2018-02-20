@@ -94,36 +94,6 @@ class Verification():
         posts = Post.query.filter_by(user_id=user.id).all()
         return posts
 
-#
-# dbSQL.drop_all()
-# dbSQL.create_all()
-# admin = Account(nickname='admin',
-#                  password_hash=generate_password_hash('admin'))
-#
-# dbSQL.session.add(admin)
-# dbSQL.session.commit()
-
-
-
-# block below is temporarily abandoned
-# '''
-# # define a User table to store user id, nickname, email and posts
-# class Account(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     nickname = db.Column(db.String(64), index=True, unique=True)
-#     email = db.Column(db.String(120), index=True, unique=True)
-#     postTitle = db.Column(db.String(2000), index=True, unique=True)
-#     postBody = db.Column(db.String(2000), index=True, unique=True)
-#
-#     def __repr__(self):
-#         return '<User %r>' % (self.nickname)
-# '''
-
-
-# define a class Post -- a second table in the database
-# to store User's Post separately
-
-
 ## Needs more input from Bo
 # Define a method to draw data from MongoDB and then print
 def allTupleFromDB():
@@ -144,16 +114,21 @@ def licenseFromZip(zipPick):
         output += temp + '---'
     return output
 
-
-'''This tagging is only performed to reduce computational complexity,
-Tags are subject to fine tuning, depending on specific analysis.'''
-
 def licenseTagging(licenseCountAtZip):
-    licenseTags = ['Diner and bar options', 'Animal Care options', 'Fitness options', 'Market options', 'Gas options',                   'Manufacturing related', 'Outdoor Activity options', 'Garage and Valet options',                    'Motor Vehicle Services', 'Children\'s Services options', 'Tobacco and Liquor',                    'Other Sale options', 'Others']
+    """
+    This tagging is only performed to reduce computational complexity,
+    Tags are subject to fine tuning, depending on specific analysis.
+    :param licenseCountAtZip: a dictionary containing business license tag (as key) and its count (as value)
+    :return: taggedLicenseAtZip
+    """
+    licenseTags = ['Diner and bar options', 'Animal Care options', 'Fitness options', 'Market options', 'Gas options',
+                   'Manufacturing related', 'Outdoor Activity options', 'Garage and Valet options',
+                   'Motor Vehicle Services', 'Children\'s Services options', 'Tobacco and Liquor',
+                   'Other Sale options', 'Others']
     taggedLicenseAtZip = {}
 
     for k in licenseTags:
-        taggedLicenseAtZip[k] = 0;
+        taggedLicenseAtZip[k] = 0
 
     for k, val in licenseCountAtZip.items():
         if(k =='Music and Dance' or k =='Class A - Indoor Special Event' or 'Food - Shared Kitchen' or
