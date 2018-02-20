@@ -21,16 +21,6 @@ def index():
     return render_template('index.html', title='Home')
 
 
-@app.route('/about')
-def about():
-    """
-    This function defines the about page to
-    introduce the website
-    :return: about.html
-    """
-    return render_template('about.html')
-
-
 @app.route('/projects')
 def projects():
     """
@@ -38,7 +28,6 @@ def projects():
     show our portfolio of projects
     :return: portfolio section in index.html
     """
-    id = 'page-top'
     return render_template('index.html', id='portfolio')
 
 
@@ -135,7 +124,7 @@ def license():
         post_zip = request.form['post_zip']
         search_result = license_from_zip(post_zip)
         recommended_license = license_recommender(post_zip)
-        if recommended_license == []:
+        if not recommended_license:
             recommended_license = 'Yay, our current tagging strategy suggests ' \
                                  'that business licenses are well balanced!'
         print(search_result)
