@@ -121,16 +121,20 @@ def license():
     :return: license.html
     """
     if request.method == 'POST':
+        # Store zipcode input
         post_zip = request.form['post_zip']
+        # Search relevant business licenses in the zipcode area
         search_result = license_from_zip(post_zip)
+        # Recommend new business licenses based on previous business association analysis
         recommended_license = license_recommender(post_zip)
+
         if not recommended_license:
             recommended_license = 'Yay, our current tagging strategy suggests ' \
                                  'that business licenses are well balanced!'
         print(search_result)
         print(recommended_license)
 
-        if search_result == "":
+        if not search_result:
             search_result = "No result found for ZIP: "+post_zip+" !"
 
         # jsonify recently started accepting list obj, require jsonify(items=[your list])
