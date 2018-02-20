@@ -8,7 +8,7 @@ from flask import render_template, url_for, request, session, redirect, abort, f
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
-from GreenMoon.models import Account, Post, licenseFromZip, licenseRecommender
+from GreenMoon.models import Account, Post, license_from_zip, license_recommender
 
 
 @app.route('/')
@@ -133,8 +133,8 @@ def license():
     """
     if request.method == 'POST':
         post_zip = request.form['post_zip']
-        searchResult = licenseFromZip(post_zip)
-        recommendedLicense = licenseRecommender(post_zip)
+        searchResult = license_from_zip(post_zip)
+        recommendedLicense = license_recommender(post_zip)
         if recommendedLicense == []:
             recommendedLicense = 'Yay, our current tagging strategy suggests ' \
                                  'that business licenses are well balanced!'
