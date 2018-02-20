@@ -127,8 +127,7 @@ class Post(dbSQL.Model):
 
 class Verification:
     """
-    Verify a user's information during registration, login.
-    And find relevant posts from the user.
+    Verify a user's information during login. And find relevant posts from the user.
     """
 
     def find_existing_user(self):
@@ -195,37 +194,49 @@ def license_tagging(license_count_at_zip):
         tagged_license_at_zip[k] = 0
 
     for k, val in license_count_at_zip.items():
-        if (k == 'Music and Dance' or k == 'Class A - Indoor Special Event' or 'Food - Shared Kitchen' or
-                    k == 'Tavern' or k == 'Liquor Airport Pushcart License' or
-                    k == 'Food - Shared Kitchen Long-Term User' or
-                    k == 'Consumption on Premises - Incidental Activity' or k == 'Caterer\'s Liquor License' or
-                    k == 'Caterer\'s Registration (Liquor)' or k == 'Retail Food Establishment' or
-                    k == 'Food - Shared Kitchen - Supplemental' or k == 'Food - Shared Kitchen Short-Term User'):
+        if k == 'Music and Dance' or \
+                        k == 'Class A - Indoor Special Event' or 'Food - Shared Kitchen' or \
+                        k == 'Tavern' or \
+                        k == 'Liquor Airport Pushcart License' or \
+                        k == 'Food - Shared Kitchen Long-Term User' or \
+                        k == 'Consumption on Premises - Incidental Activity' or \
+                        k == 'Caterer\'s Liquor License' or \
+                        k == 'Caterer\'s Registration (Liquor)' or \
+                        k == 'Retail Food Establishment' or \
+                        k == 'Food - Shared Kitchen - Supplemental' or \
+                        k == 'Food - Shared Kitchen Short-Term User':
             tagged_license_at_zip['Diner and bar options'] += val
-        if (k == 'Animal Care License'):
+        if k == 'Animal Care License':
             tagged_license_at_zip['Animal Care options'] += val
-        if (k == 'Explosives, Certificate of Fitness'):
+        if k == 'Explosives, Certificate of Fitness':
             tagged_license_at_zip['Fitness options'] += val
-        if (k == 'Wholesale Food Establishment' or k == 'Mobile Food License' or k == 'Package Goods' or
-                    k == 'Itinerant Merchant' or k == 'Peddler License'):
+        if k == 'Wholesale Food Establishment' or \
+                        k == 'Mobile Food License' or \
+                        k == 'Package Goods' or \
+                        k == 'Itinerant Merchant' or \
+                        k == 'Peddler License':
             tagged_license_at_zip['Market options'] += val
-        if (k == 'Filling Station'):
+        if k == 'Filling Station':
             tagged_license_at_zip['Gas options'] += val
-        if (k == 'Bicycle Messenger Service' or k == 'Manufacturing Establishments'):
+        if k == 'Bicycle Messenger Service' or k == 'Manufacturing Establishments':
             tagged_license_at_zip['Manufacturing related'] += val
-        if (k == 'Outdoor Patio' or k == 'Navy Pier Kiosk License' or k == 'Public Place of Amusement' or
-                    k == 'Wrigley Field' or k == 'Navy Pier - Mobile'):
+        if k == 'Outdoor Patio' or \
+                        k == 'Navy Pier Kiosk License' or \
+                        k == 'Public Place of Amusement' or \
+                        k == 'Wrigley Field' or \
+                        k == 'Navy Pier - Mobile':
             tagged_license_at_zip['Outdoor Activity options'] += val
-        if (k == 'Accessory Garage' or k == 'Public Garage' or k == 'Valet Parking Operator'):
+        if k == 'Accessory Garage' or k == 'Public Garage' or k == 'Valet Parking Operator':
             tagged_license_at_zip['Garage and Valet options'] += val
-        if (k == 'Motor Vehicle Services License'):
+        if k == 'Motor Vehicle Services License':
             tagged_license_at_zip['Motor Vehicle Services'] += val
-        if (k == 'Children\'s Services Facility License'):
+        if k == 'Children\'s Services Facility License':
             tagged_license_at_zip['Children\'s Services options'] += val
-        if (k == 'Tobacco Retail Over Counter' or k == 'Tobacco Sampler' or k == 'Tobacco Dealer Wholesale'):
+        if k == 'Tobacco Retail Over Counter' or k == 'Tobacco Sampler' or k == 'Tobacco Dealer Wholesale':
             tagged_license_at_zip['Tobacco and Liquor'] += val
-        if (k == 'License Broker' or k == 'Secondhand Dealer (Includes Valuable Objects)' or
-                    k == 'Secondhand Dealer (No Valuable Objects)'):
+        if k == 'License Broker' or \
+                        k == 'Secondhand Dealer (Includes Valuable Objects)' or \
+                        k == 'Secondhand Dealer (No Valuable Objects)':
             tagged_license_at_zip['Other Sale options'] += val
         else:
             tagged_license_at_zip['Others'] += val
