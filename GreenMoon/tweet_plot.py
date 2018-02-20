@@ -1,4 +1,7 @@
-import sys
+"""
+This script explored plotting tweets data using Python Bokeh
+"""
+
 from bokeh.plotting import *
 from bokeh.resources import CDN
 from bokeh.embed import file_html, components
@@ -13,10 +16,6 @@ all_tweet_batches = tweet_collections.find()
 number_all_tweet_batches = all_tweet_batches.count()
 
 # make a pandas dataframe called tweets
-# tweets.columns = ['time', 'sentiment score', 'color']
-# if pos counts / neg counts > 1, sentiment score = positive = 1
-# if pos counts / neg counts = 1, sentiment score = neutral = 0
-# if pos counts / neg counts > 1, sentiment score = negative = -1
 tweets = pd.DataFrame(data=None, index=range(number_all_tweet_batches), columns=['time', 'sentiment', 'sentiment score', 'color'])
 
 for tweet_batch_number in range(number_all_tweet_batches):
@@ -37,6 +36,7 @@ for tweet_batch_number in range(number_all_tweet_batches):
 
 print(tweets)
 print(list(tweets['time']))
+
 # making a plot using bokeh
 colormap = {'pos': 'green', 'neu': 'yellow', 'neg': 'red'}
 tweets['color'] = tweets['sentiment'].map(lambda x: colormap[x])
