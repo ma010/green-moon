@@ -25,7 +25,7 @@ def index():
 def about():
     """
     This function defines the about page to
-        introduce the website
+    introduce the website
     :return: about.html
     """
     return render_template('about.html')
@@ -35,8 +35,8 @@ def about():
 def projects():
     """
     This function defines the projects page to
-        show our portfolio
-    :return: porfolio section in index.html
+    show our portfolio of projects
+    :return: portfolio section in index.html
     """
     id = 'page-top'
     return render_template('index.html', id='portfolio')
@@ -127,7 +127,7 @@ def add_entry():
 def license():
     """
     This function defines the license page to
-    show our analysis of business license information
+    show the analysis of business license information
     from City of Chicago data portal
     :return: license.html
     """
