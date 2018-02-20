@@ -1,8 +1,7 @@
-'''
+"""
 This script initializes the database before the web app runs.
 PostgresSQL is used as the backend with SQLAlchemy as the API.
-'''
-
+"""
 
 from GreenMoon import app, dbSQL
 from werkzeug.security import generate_password_hash
