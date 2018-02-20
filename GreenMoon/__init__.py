@@ -16,9 +16,9 @@ app.config.from_pyfile('config.py')
 
 # MongoDB for fast unstructured data storage, such as info crawled from webpages, twitter, etc.
 # Set up mongoDB engine
-# con = Connection()
+con = Connection()
 # Get database record - businessDB which contains business lincense info
-# dbMongo = con.businessDB
+dbMongo = con.businessDB
 
 from GreenMoon import views
 
