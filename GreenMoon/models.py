@@ -6,7 +6,7 @@ import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from GreenMoon import app, dbMongo, dbSQL
 
-app.secret_key = 'why would I tell you my secret key?'
+app.secret_key = 'SECRET'
 
 
 class Account(dbSQL.Model):
