@@ -8,7 +8,7 @@ from flask import render_template, url_for, request, session, redirect, abort, f
 from werkzeug.security import check_password_hash
 
 from GreenMoon import app, dbSQL
-from GreenMoon.models import Account, Post, license_from_zip, license_recommender
+from GreenMoon.models import Account, Post, Business_license
 
 
 @app.route('/')
@@ -124,9 +124,9 @@ def license():
         # Store zipcode input
         post_zip = request.form['post_zip']
         # Search relevant business licenses in the zipcode area
-        search_result = license_from_zip(post_zip)
+        search_result = Business_license.license_from_zip(post_zip)
         # Recommend new business licenses based on previous business association analysis
-        recommended_license = license_recommender(post_zip)
+        recommended_license = Business_license.license_recommender(post_zip)
 
         if not recommended_license:
             recommended_license = 'Yay, our current tagging strategy suggests ' \
