@@ -133,19 +133,19 @@ def license():
     """
     if request.method == 'POST':
         post_zip = request.form['post_zip']
-        searchResult = license_from_zip(post_zip)
-        recommendedLicense = license_recommender(post_zip)
-        if recommendedLicense == []:
-            recommendedLicense = 'Yay, our current tagging strategy suggests ' \
+        search_result = license_from_zip(post_zip)
+        recommended_license = license_recommender(post_zip)
+        if recommended_license == []:
+            recommended_license = 'Yay, our current tagging strategy suggests ' \
                                  'that business licenses are well balanced!'
-        print(searchResult)
-        print(recommendedLicense)
+        print(search_result)
+        print(recommended_license)
 
-        if searchResult == "":
-            searchResult = "No result found for ZIP: "+post_zip+" !"
+        if search_result == "":
+            search_result = "No result found for ZIP: "+post_zip+" !"
 
         # jsonify recently started accepting list obj, require jsonify(items=[your list])
-        return jsonify(searchResult=[searchResult], recommendedLicense=[recommendedLicense])
+        return jsonify(searchResult=[search_result], recommendedLicense=[recommended_license])
 
     return render_template('license.html')
 
