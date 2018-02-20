@@ -121,6 +121,11 @@ def get_license_zip():
 
 
 def license_from_zip(zip_pick):
+    """
+    Get all the business licenses within the zipcode area given or picked by a user
+    :param zip_pick: zipcode (integer) picked or input by a user
+    :return: a list of licenses in the zipcode area specified by a user
+    """
     output = ""
     license_found_at_zip = dbMongo.activeLicense.find_one({'zip': str(zip_pick)})
 
