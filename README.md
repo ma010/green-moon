@@ -17,7 +17,7 @@ This is a web app used to be hosted on a [Linode](https://www.linode.com) server
         /static
             /css
             /js
-                license.js  # Implement interactive component on HTMl and asyncrhonous calls to the database
+                license.js  # Implement interactive component and asyncrhonous calls to the database
             ...
         /templates
             base.html  # Jinjia2 template engine for Python
