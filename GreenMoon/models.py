@@ -21,25 +21,55 @@ class Account(dbSQL.Model):
 
     @property
     def password(self):
+        """
+        Handle empty or erroneous input
+        :return: an error message
+        """
         raise AttributeError('Password cannot be read directly!')
 
     @password.setter
     def password(self, password):
+        """
+        Store password using a hash function
+        :param password: a password string
+        :return: hashed password
+        """
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
+        """
+        Verify whether the password input is right for a user
+        :param password: a password string
+        :return: true if password input matches stored password for the user; otherwise return false
+        """
         return check_password_hash(self.password, password)
 
     def is_authenticated(self):
+        """
+        Status about whether a user has been authenticated via log-in
+        :return:
+        """
         return True
 
     def is_active(self):
+        """
+        Status about whether a user has been active
+        :return:
+        """
         return True
 
     def is_anonymous(self):
+        """
+        Status about whether a user has been anonymous
+        :return:
+        """
         return False
 
     def get_id(self):
+        """
+        Get user id
+        :return: an id string
+        """
         try:
             return unicode(self.id)  # python 2
         except NameError:
@@ -47,10 +77,21 @@ class Account(dbSQL.Model):
 
     @staticmethod
     def make_valid_nickname(nickname):
+        """
+        Make a nickname valid by removing irregular characters
+        :param nickname: a string
+        :return: a string
+        """
         return re.sub('[^a-zA-Z0-9_\.]', '', nickname)
 
     @staticmethod
     def make_unique_nickname(nickname):
+        """
+        Check whether a nickname has been used or not. If a name already exists in the database, add an internal
+        version of the name in the database
+        :param nickname: a string
+        :return: a string
+        """
         if Account.query.filter_by(nickname=nickname).first() is None:
             return nickname
         version = 2
