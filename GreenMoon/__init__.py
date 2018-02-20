@@ -1,5 +1,5 @@
 """
-This script initializes the web app
+    This script initializes the web app
 """
 
 

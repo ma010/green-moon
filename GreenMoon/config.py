@@ -1,5 +1,5 @@
 """
-This script configures the database
+    This script configures the database
 """
 
 import os
