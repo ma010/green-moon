@@ -32,8 +32,8 @@ This is a web app used to be hosted on a [Linode](https://www.linode.com) server
 
 #### Features implemented through this web app
 * Analyze business license data from Chicago ([Open Data Portal](https://data.cityofchicago.org)) and visualize them on 
-a map with zipcode boundaries. A user can search or hover the mouse over to discover frequently associated business 
-entities in a neighborhood.
+a map with zipcode boundaries. A user can search or hover the mouse over to discover business entities 
+in a neighborhood and see the recommended new businesses based on association analysis.
 * Visualize sentiment analysis of twitter data
 * Host results from a data science project on bike sharing in Chicago
 
