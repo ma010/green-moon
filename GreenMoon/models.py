@@ -10,6 +10,9 @@ app.secret_key = 'why would I tell you my secret key?'
 
 
 class Account(dbSQL.Model):
+    """
+    Create user account with id, nickname, password, and associated posts from the user
+    """
     __tablename__ = 'accounts'
     id = dbSQL.Column(dbSQL.Integer, primary_key=True)
     nickname = dbSQL.Column(dbSQL.String(12), index=True, unique=True)
