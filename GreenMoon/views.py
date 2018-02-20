@@ -20,6 +20,7 @@ def index():
     """
     return render_template('index.html', title='Home')
 
+
 @app.route('/about')
 def about():
     """
@@ -28,6 +29,7 @@ def about():
     :return: about.html
     """
     return render_template('about.html')
+
 
 @app.route('/projects')
 def projects():
@@ -39,6 +41,7 @@ def projects():
     id = 'page-top'
     return render_template('index.html', id='portfolio')
 
+
 @app.route('/projects/blog')
 def blog():
     """
@@ -48,6 +51,7 @@ def blog():
     """
     posts = dbSQL.session.query(Post).all()
     return render_template('blog.html', posts=posts)
+
 
 @app.route('/projects/blog/login', methods=['GET', 'POST'])
 def login():
@@ -76,6 +80,7 @@ def login():
 
     return render_template('login.html', error=error)
 
+
 @app.route('/projects/blog/logout')
 def logout():
     """
@@ -88,6 +93,7 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('blog'))
 
+
 @app.route('/sign')
 def sign():
     """
@@ -95,6 +101,7 @@ def sign():
     :return: sign.html
     """
     return render_template('sign.html')
+
 
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -114,6 +121,7 @@ def add_entry():
     dbSQL.session.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('blog'))
+
 
 @app.route('/projects/license', methods=['GET', 'POST'])
 def license():
@@ -141,6 +149,7 @@ def license():
 
     return render_template('license.html')
 
+
 @app.route('/projects/bikes')
 def bikes():
     """
@@ -150,6 +159,7 @@ def bikes():
     :return: bikes.html
     """
     return render_template('bikes.html')
+
 
 @app.route('/projects/twitter')
 def twitter():
@@ -161,6 +171,7 @@ def twitter():
     """
     return render_template('twitter.html')
 
+
 @app.route('/research')
 def research():
     """
@@ -171,6 +182,7 @@ def research():
     :return: research.html
     """
     return render_template('research.html', title='Research')
+
 
 @app.route('/ChicagoZipcodeBoundary.geojson')
 def zip_boundary():
