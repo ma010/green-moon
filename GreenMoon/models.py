@@ -1,16 +1,11 @@
 import re
-
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from GreenMoon import app, dbMongo, dbSQL
-
 
 app.secret_key = 'why would I tell you my secret key?'
 
-# ## Initialize dbSQL and and admin
-# dbSQL = SQLAlchemy(app)
-
 class Account(dbSQL.Model):
+
     __tablename__ = 'accounts'
     id = dbSQL.Column(dbSQL.Integer, primary_key=True)
     nickname = dbSQL.Column(dbSQL.String(12), index=True, unique=True)
@@ -62,9 +57,9 @@ class Account(dbSQL.Model):
         # def __repr__(self):
         #     return '<Account name %r>' % self.name
 class Post(dbSQL.Model):
+
     __tablename__ = 'posts'
     id = dbSQL.Column(dbSQL.Integer, primary_key = True)
-
     title = dbSQL.Column(dbSQL.String(120), index=True)
     body = dbSQL.Column(dbSQL.String(200))
     timestamp = dbSQL.Column(dbSQL.DateTime)
@@ -99,6 +94,7 @@ class Verification():
 def allTupleFromDB():
     output = ""
     allLicense = dbMongo.activeLicense.find()
+
     for L in allLicense:
         output += str(L['zip']) + '++'
         temp = ' '.join( str(e) for e in list( L['license'].keys() ) )
@@ -109,6 +105,7 @@ def licenseFromZip(zipPick):
     output = ""
     temp = ""
     licenseFoundAtZip = dbMongo.activeLicense.find_one({'zip' : str(zipPick)})
+
     for k, val in licenseFoundAtZip['license'].items():
         temp = str(k) + ': '+ str(val)
         output += temp + '---'
@@ -121,45 +118,48 @@ def licenseTagging(licenseCountAtZip):
     :param licenseCountAtZip: a dictionary containing business license tag (as key) and its count (as value)
     :return: taggedLicenseAtZip
     """
-    licenseTags = ['Diner and bar options', 'Animal Care options', 'Fitness options', 'Market options', 'Gas options',
-                   'Manufacturing related', 'Outdoor Activity options', 'Garage and Valet options',
-                   'Motor Vehicle Services', 'Children\'s Services options', 'Tobacco and Liquor',
-                   'Other Sale options', 'Others']
+    licenseTags = [
+        'Diner and bar options', 'Animal Care options', 'Fitness options', 'Market options', 'Gas options',
+        'Manufacturing related', 'Outdoor Activity options', 'Garage and Valet options',
+        'Motor Vehicle Services', 'Children\'s Services options', 'Tobacco and Liquor',
+        'Other Sale options', 'Others'
+    ]
     taggedLicenseAtZip = {}
 
     for k in licenseTags:
         taggedLicenseAtZip[k] = 0
 
     for k, val in licenseCountAtZip.items():
-        if(k =='Music and Dance' or k =='Class A - Indoor Special Event' or 'Food - Shared Kitchen' or
-                   k =='Tavern' or k =='Liquor Airport Pushcart License' or k =='Food - Shared Kitchen Long-Term User' or
+        if (k =='Music and Dance' or k =='Class A - Indoor Special Event' or 'Food - Shared Kitchen' or
+                   k =='Tavern' or k =='Liquor Airport Pushcart License' or
+                   k =='Food - Shared Kitchen Long-Term User' or
                    k =='Consumption on Premises - Incidental Activity' or k =='Caterer\'s Liquor License' or
                    k =='Caterer\'s Registration (Liquor)' or k =='Retail Food Establishment' or
                    k =='Food - Shared Kitchen - Supplemental' or k =='Food - Shared Kitchen Short-Term User'):
             taggedLicenseAtZip['Diner and bar options'] += val
-        if(k =='Animal Care License'):
+        if (k =='Animal Care License'):
             taggedLicenseAtZip['Animal Care options'] += val
-        if(k =='Explosives, Certificate of Fitness'):
+        if (k =='Explosives, Certificate of Fitness'):
             taggedLicenseAtZip['Fitness options'] += val
-        if(k =='Wholesale Food Establishment' or k =='Mobile Food License' or k =='Package Goods' or
+        if (k =='Wholesale Food Establishment' or k =='Mobile Food License' or k =='Package Goods' or
                    k =='Itinerant Merchant' or k =='Peddler License'):
             taggedLicenseAtZip['Market options'] += val
-        if(k =='Filling Station'):
+        if (k =='Filling Station'):
             taggedLicenseAtZip['Gas options'] += val
-        if(k =='Bicycle Messenger Service' or k =='Manufacturing Establishments'):
+        if (k =='Bicycle Messenger Service' or k =='Manufacturing Establishments'):
             taggedLicenseAtZip['Manufacturing related'] += val
-        if(k =='Outdoor Patio' or k =='Navy Pier Kiosk License' or k =='Public Place of Amusement' or
+        if (k =='Outdoor Patio' or k =='Navy Pier Kiosk License' or k =='Public Place of Amusement' or
                    k =='Wrigley Field' or k =='Navy Pier - Mobile'):
             taggedLicenseAtZip['Outdoor Activity options'] += val
-        if(k =='Accessory Garage' or k =='Public Garage' or k =='Valet Parking Operator'):
+        if (k =='Accessory Garage' or k =='Public Garage' or k =='Valet Parking Operator'):
             taggedLicenseAtZip['Garage and Valet options'] += val
-        if(k =='Motor Vehicle Services License'):
+        if (k =='Motor Vehicle Services License'):
             taggedLicenseAtZip['Motor Vehicle Services'] += val
-        if(k =='Children\'s Services Facility License'):
+        if (k =='Children\'s Services Facility License'):
             taggedLicenseAtZip['Children\'s Services options'] += val
-        if(k =='Tobacco Retail Over Counter' or k =='Tobacco Sampler' or k =='Tobacco Dealer Wholesale'):
+        if (k =='Tobacco Retail Over Counter' or k =='Tobacco Sampler' or k =='Tobacco Dealer Wholesale'):
             taggedLicenseAtZip['Tobacco and Liquor'] += val
-        if(k =='License Broker' or k =='Secondhand Dealer (Includes Valuable Objects)' or
+        if (k =='License Broker' or k =='Secondhand Dealer (Includes Valuable Objects)' or
                    k =='Secondhand Dealer (No Valuable Objects)'):
             taggedLicenseAtZip['Other Sale options'] += val
         else:
@@ -227,12 +227,14 @@ def licenseRecommender(zipPick):
         ['Tobacco and Liquor', 'Other Sale options'], ['Tobacco and Liquor', 'Others'],
         ['Other Sale options', 'Others']
     ]
+
     list3 = [['Diner and bar options', 'Market options', 'Others']]
     licenseRec = []
 
     for L in list1:
         if(L[0] not in existingLicenses):
             licenseRec.append(L[0])
+
     for c in list2:
         if(c[0] in existingLicenses and c[1] not in existingLicenses and c[1] not in licenseRec):
             licenseRec.append(c[1])
@@ -242,6 +244,7 @@ def licenseRecommender(zipPick):
                    c[0] not in licenseRec and c[1] not in licenseRec):
             licenseRec.append(c[0])
             licenseRec.append(c[1])
+
     for t in list3:
         for t_l in t:
             if(t_l not in existingLicenses and t_l not in licenseRec):
