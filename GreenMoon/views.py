@@ -1,6 +1,6 @@
 """
     This is the View module to
-    control all the view functions
+    control all the view functions, each of which is responsible for a particular web page
 """
 
 from datetime import datetime
