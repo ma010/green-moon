@@ -54,8 +54,6 @@ class Account(dbSQL.Model):
             version += 1
         return new_nickname
 
-        # def __repr__(self):
-        #     return '<Account name %r>' % self.name
 class Post(dbSQL.Model):
 
     __tablename__ = 'posts'
