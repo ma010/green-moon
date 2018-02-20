@@ -1,5 +1,5 @@
 """
-
+    Database models and functions that interact with database are declared here
 """
 
 import re
